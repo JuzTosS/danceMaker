@@ -3,9 +3,11 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/elements_list"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/element_list"
+            android:title="All elements" />
+        <item
+            android:id="@+id/element_create_sequence"
+            android:title="Create sequence" />
     </group>
 
 </menu>

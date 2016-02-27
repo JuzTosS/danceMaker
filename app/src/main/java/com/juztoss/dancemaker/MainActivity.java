@@ -1,9 +1,11 @@
 package com.juztoss.dancemaker;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,13 +14,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    DatabaseHelper mDatabaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mDatabaseHelper = new DatabaseHelper(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -28,7 +34,12 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "me!!", Toast.LENGTH_LONG).show();
+                Fragment fragment = new AddNewElementFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, fragment)
+                        .commit();
+
             }
         });
 
@@ -77,25 +88,51 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-//        if (id == R.id.nav) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_manage) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
+        Fragment fragment;
+        FragmentManager fragmentManager = getFragmentManager(); // For AppCompat use getSupportFragmentManager
+        int id = item.getItemId();
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        switch (id) {
+            case R.id.element_list:
+                fragment = new ElementsListFragment();
+                fab.show();
+                break;
+            case R.id.element_create_sequence:
+                fragment = new SequenceListFragment();
+                fab.hide();
+                break;
+            default:
+                return false;
+        }
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        return true;
+        return false;
+    }
+
+    public void onSaveClick(View view) {
+        TextView nameField = (TextView) findViewById(R.id.element_name);
+        TextView lengthField = (TextView) findViewById(R.id.element_length);
+
+        ContentValues values = new ContentValues();
+        values.put(mDatabaseHelper.ELEMENT_NAME_COLUMN, nameField.getText().toString());
+        CharSequence lengthValue = lengthField.getText();
+        int length;
+        if(lengthValue == null || lengthValue.length() <= 0)
+           length = 0;
+        else
+           length = Integer.parseInt(lengthField.getText().toString());
+
+        values.put(mDatabaseHelper.ELEMENT_LENGTH_COLUMN, length);
+        SQLiteDatabase sdb = mDatabaseHelper.getWritableDatabase();
+        sdb.insert(mDatabaseHelper.TABLE_ELEMENTS, mDatabaseHelper.ELEMENT_NAME_COLUMN, values);
+
+        nameField.setText("");
+        lengthField.setText("");
     }
 }
