@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.juztoss.dancemaker.AddNewElementFragment;
 import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.activities.MainActivity;
 import com.juztoss.dancemaker.model.DanceElement;
@@ -44,6 +43,7 @@ public class ElementsListFragment extends ListFragment implements ElementDeleteL
 
         return rootView;
     }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

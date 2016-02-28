@@ -12,10 +12,16 @@ public class DanceSequence extends ArrayList<DanceElement> {
     private int mLength;
     private String mId;
     private String mName;
-    private ArrayList<DanceElement> mElements;
+    private List<DanceElement> mElements;
     private boolean mIsNew = false;
 
-    public DanceSequence(String id, String name, ArrayList<DanceElement> elements) {
+    public DanceSequence(String name, List<DanceElement> elements) {
+        mElements = elements;
+        mName = name;
+        mIsNew = true;
+    }
+
+    public DanceSequence(String id, String name, List<DanceElement> elements) {
         mElements = elements;
         mName = name;
         mId = id;
@@ -37,12 +43,7 @@ public class DanceSequence extends ArrayList<DanceElement> {
         return mLength;
     }
 
-    public void add()
-    {
-
-    }
-
     public List<DanceElement> getmElements() {
-        return Collections.unmodifiableList(mElements);
+        return mElements;
     }
 }

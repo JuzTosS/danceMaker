@@ -3,7 +3,6 @@ package com.juztoss.dancemaker.activities;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,11 +15,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.juztoss.dancemaker.AddNewElementFragment;
 import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.fragments.ElementsListFragment;
 import com.juztoss.dancemaker.fragments.SequenceListFragment;
 import com.juztoss.dancemaker.model.DanceElement;
+import com.juztoss.dancemaker.model.DanceSequence;
 import com.juztoss.dancemaker.model.DanceSpace;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -111,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
-    public void onSaveClick(View view) {
+    public void onElementSaveClick(View view) {
         TextView nameField = (TextView) findViewById(R.id.element_name);
         TextView lengthField = (TextView) findViewById(R.id.element_length);
 
@@ -120,6 +119,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mDanceSpace.save(newElement);
         } catch (Exception e) {
             Toast.makeText(this, "An error occurred while trying to save new element!", Toast.LENGTH_SHORT).show();
+        }
+
+        nameField.setText("");
+        lengthField.setText("");
+    }
+
+    public void onSequenceSaveClick(View view) {
+        TextView nameField = (TextView) findViewById(R.id.element_name);
+        TextView lengthField = (TextView) findViewById(R.id.element_length);
+
+        try {
+            DanceSequence newSequence = new DanceSequence(nameField.getText().toString(), mDanceSpace.getAllElements());
+            mDanceSpace.save(newSequence);
+        } catch (Exception e) {
+            Toast.makeText(this, "An error occurred while trying to save new sequence!", Toast.LENGTH_SHORT).show();
         }
 
         nameField.setText("");

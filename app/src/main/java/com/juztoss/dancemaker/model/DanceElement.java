@@ -34,7 +34,7 @@ public class DanceElement {
         return mLength;
     }
 
-    public String id() {
+    public String getId() {
         return mId;
     }
 }

@@ -7,7 +7,7 @@
             android:title="All elements" />
         <item
             android:id="@+id/element_create_sequence"
-            android:title="Create sequence" />
+            android:title="Sequences" />
     </group>
 
 </menu>
