@@ -1,4 +1,4 @@
-package com.juztoss.dancemaker;
+package com.juztoss.dancemaker.activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -16,16 +16,31 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.juztoss.dancemaker.AddNewElementFragment;
+import com.juztoss.dancemaker.R;
+import com.juztoss.dancemaker.fragments.ElementsListFragment;
+import com.juztoss.dancemaker.fragments.SequenceListFragment;
+import com.juztoss.dancemaker.model.DanceElement;
+import com.juztoss.dancemaker.model.DanceSpace;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    DatabaseHelper mDatabaseHelper;
+    private DanceSpace mDanceSpace;
+
+    public DanceSpace getDanceSpace()
+    {
+        return mDanceSpace;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mDatabaseHelper = new DatabaseHelper(this);
 
         super.onCreate(savedInstanceState);
+
+        mDanceSpace = new DanceSpace(this);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -119,18 +134,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView nameField = (TextView) findViewById(R.id.element_name);
         TextView lengthField = (TextView) findViewById(R.id.element_length);
 
-        ContentValues values = new ContentValues();
-        values.put(mDatabaseHelper.ELEMENT_NAME_COLUMN, nameField.getText().toString());
-        CharSequence lengthValue = lengthField.getText();
-        int length;
-        if(lengthValue == null || lengthValue.length() <= 0)
-           length = 0;
-        else
-           length = Integer.parseInt(lengthField.getText().toString());
-
-        values.put(mDatabaseHelper.ELEMENT_LENGTH_COLUMN, length);
-        SQLiteDatabase sdb = mDatabaseHelper.getWritableDatabase();
-        sdb.insert(mDatabaseHelper.TABLE_ELEMENTS, mDatabaseHelper.ELEMENT_NAME_COLUMN, values);
+        try {
+            DanceElement newElement = new DanceElement(nameField.getText().toString(), Integer.parseInt(lengthField.getText().toString()));
+            mDanceSpace.save(newElement);
+        } catch (Exception e) {
+            Toast.makeText(this, "An error occurred while trying to save new element!", Toast.LENGTH_SHORT).show();
+        }
 
         nameField.setText("");
         lengthField.setText("");

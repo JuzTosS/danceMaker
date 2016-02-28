@@ -1,4 +1,4 @@
-package com.juztoss.dancemaker;
+package com.juztoss.dancemaker.model;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,7 +10,7 @@ import android.util.Log;
 /**
  * Created by Kirill on 2/27/2016.
  */
-public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns{
+class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns{
 
     // имя базы данных
     private static final String DATABASE_NAME = "mydatabase.db";

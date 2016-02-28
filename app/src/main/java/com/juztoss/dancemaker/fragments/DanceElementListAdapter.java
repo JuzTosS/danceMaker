@@ -1,4 +1,4 @@
-package com.juztoss.dancemaker;
+package com.juztoss.dancemaker.fragments;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,9 +9,12 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.juztoss.dancemaker.R;
+import com.juztoss.dancemaker.model.DanceElement;
+
 import java.util.ArrayList;
 
-interface DeleteListener
+interface ElementDeleteListener
 {
     void onDelete(DanceElement element);
 }
@@ -23,7 +26,7 @@ public class DanceElementListAdapter extends BaseAdapter implements ListAdapter 
 
     private  ArrayList<DanceElement> mDanceElements;
     private Context context;
-    private DeleteListener mOnDeleteListener;
+    private ElementDeleteListener mOnElementDeleteListener;
 
 
     public DanceElementListAdapter(Context context, ArrayList<DanceElement> danceElements) {
@@ -31,9 +34,9 @@ public class DanceElementListAdapter extends BaseAdapter implements ListAdapter 
         this.context = context;
     }
 
-    public void setDeleteListener(DeleteListener onDeleteListener)
+    public void setDeleteListener(ElementDeleteListener onElementDeleteListener)
     {
-        mOnDeleteListener = onDeleteListener;
+        mOnElementDeleteListener = onElementDeleteListener;
     }
 
     @Override
@@ -70,8 +73,8 @@ public class DanceElementListAdapter extends BaseAdapter implements ListAdapter 
             @Override
             public void onClick(View v) {
 
-                if (mOnDeleteListener != null) {
-                    mOnDeleteListener.onDelete(el);
+                if (mOnElementDeleteListener != null) {
+                    mOnElementDeleteListener.onDelete(el);
                 }
                 mDanceElements.remove(position);
                 notifyDataSetChanged();
