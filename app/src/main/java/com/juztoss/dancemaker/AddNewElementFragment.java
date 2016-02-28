@@ -1,6 +1,5 @@
 package com.juztoss.dancemaker;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,6 +14,6 @@ public class AddNewElementFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.activity_add_new, container, false);
+        return inflater.inflate(R.layout.activity_add_new_element, container, false);
     }
 }

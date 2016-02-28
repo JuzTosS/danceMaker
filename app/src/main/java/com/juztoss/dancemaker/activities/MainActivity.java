@@ -2,8 +2,6 @@ package com.juztoss.dancemaker.activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -29,8 +27,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private DanceSpace mDanceSpace;
 
-    public DanceSpace getDanceSpace()
-    {
+    public DanceSpace getDanceSpace() {
         return mDanceSpace;
     }
 
@@ -44,19 +41,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Fragment fragment = new AddNewElementFragment();
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, fragment)
-                        .commit();
-
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -107,15 +91,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment fragment;
         FragmentManager fragmentManager = getFragmentManager(); // For AppCompat use getSupportFragmentManager
         int id = item.getItemId();
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         switch (id) {
             case R.id.element_list:
                 fragment = new ElementsListFragment();
-                fab.show();
                 break;
             case R.id.element_create_sequence:
                 fragment = new SequenceListFragment();
-                fab.hide();
                 break;
             default:
                 return false;

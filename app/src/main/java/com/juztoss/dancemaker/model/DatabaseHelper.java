@@ -15,17 +15,26 @@ class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns{
     // имя базы данных
     private static final String DATABASE_NAME = "mydatabase.db";
     // версия базы данных
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public static final String TABLE_ELEMENTS = "elements";
+    public static final String TABLE_SEQUENCES = "sequences";
 
     public static final String ELEMENT_NAME_COLUMN = "name";
     public static final String ELEMENT_LENGTH_COLUMN = "length";
 
-    private static final String DATABASE_CREATE_SCRIPT = "create table "
+    public static final String SEQUENCES_NAME_COLUMN = "name";
+    public static final String SEQUENCES_ELEMENTS_COLUMN = "elements";
+
+    private static final String CREATE_ELEMENTS_TABLE = "create table "
             + TABLE_ELEMENTS + " (" + BaseColumns._ID
             + " integer primary key autoincrement, " + ELEMENT_NAME_COLUMN
             + " text not null, " + ELEMENT_LENGTH_COLUMN + " integer); ";
+
+    private static final String CREATE_SEQUENCES_TABLE = "create table "
+            + TABLE_SEQUENCES + " (" + BaseColumns._ID
+            + " integer primary key autoincrement, " + SEQUENCES_NAME_COLUMN
+            + " text not null, " + SEQUENCES_ELEMENTS_COLUMN + " integer); ";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -33,17 +42,16 @@ class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(DATABASE_CREATE_SCRIPT);
+        db.execSQL(CREATE_ELEMENTS_TABLE);
+        db.execSQL(CREATE_SEQUENCES_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Запишем в журнал
-        Log.w("SQLite", "Обновляемся с версии " + oldVersion + " на версию " + newVersion);
+        Log.i("SQLite", "Updating from " + oldVersion + " to " + newVersion);
 
-        // Удаляем старую таблицу и создаём новую
-        db.execSQL("DROP TABLE IF IT EXISTS " + TABLE_ELEMENTS);
-        // Создаём новую таблицу
+        db.execSQL("DROP TABLE IF EXISTS '" + TABLE_ELEMENTS + "';");
+        db.execSQL("DROP TABLE IF EXISTS '" + TABLE_SEQUENCES + "';");
         onCreate(db);
     }
 }

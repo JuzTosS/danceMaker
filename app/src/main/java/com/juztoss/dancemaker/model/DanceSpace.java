@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Kirill on 2/28/2016.
@@ -43,14 +45,16 @@ public class DanceSpace {
         }
 
         cursor.close();
+
+        mSequences = new ArrayList<>();
     }
 
-    public ArrayList<DanceSequence> getSequences() {
-        return mSequences;
+    public List<DanceSequence> getSequences() {
+        return (List<DanceSequence>)mSequences.clone();
     }
 
-    public ArrayList<DanceElement> getAllElements() {
-        return mAllElements;
+    public List<DanceElement> getAllElements() {
+        return (List<DanceElement>)mAllElements.clone();
     }
 
     public void save(DanceElement element) throws DanceException {
@@ -77,6 +81,7 @@ public class DanceSpace {
         }
 
         mDb.delete(mDatabaseHelper.TABLE_ELEMENTS, mDatabaseHelper._ID + "= ?", new String[]{element.id()});
+        updateLists();
     }
 
     public void delete(DanceSequence sequence) throws DanceException {
