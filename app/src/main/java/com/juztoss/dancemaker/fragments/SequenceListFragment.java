@@ -6,7 +6,9 @@ import android.app.FragmentManager;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -41,6 +43,9 @@ public class SequenceListFragment extends ListFragment implements SequenceDelete
             }
         });
 
+        ActionBar actionBar = ((MainActivity)getActivity()).getSupportActionBar();
+        actionBar.setTitle("Sequences");
+
         return rootView;
     }
 
@@ -59,5 +64,10 @@ public class SequenceListFragment extends ListFragment implements SequenceDelete
         } catch (DanceException e) {
             Toast.makeText(getActivity(), "Unfortunately element hasn't been deleted!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.clear();
     }
 }

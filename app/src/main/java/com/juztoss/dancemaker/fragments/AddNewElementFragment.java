@@ -2,14 +2,21 @@ package com.juztoss.dancemaker.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.juztoss.dancemaker.R;
+import com.juztoss.dancemaker.activities.MainActivity;
+import com.juztoss.dancemaker.model.DanceElement;
 
 /**
  * Created by Kirill on 2/27/2016.
@@ -22,13 +29,13 @@ public class AddNewElementFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view =  inflater.inflate(R.layout.fragment_add_new_element, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_new_element, container, false);
 
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, LENGTHS);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        Spinner lengthSpinner = (Spinner)view.findViewById(R.id.element_length);
+        Spinner lengthSpinner = (Spinner) view.findViewById(R.id.element_length);
         lengthSpinner.setAdapter(adapter);
 
         lengthSpinner.setPrompt("Title");
@@ -48,6 +55,34 @@ public class AddNewElementFragment extends Fragment {
             }
         });
 
+        ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
+        actionBar.setTitle("New element");
+
         return view;
     }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.clear();
+        getActivity().getMenuInflater().inflate(R.menu.menu_save, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        TextView nameField = (TextView) getActivity().findViewById(R.id.element_name);
+        Spinner lengthField = (Spinner) getActivity().findViewById(R.id.element_length);
+
+        try {
+            DanceElement newElement = new DanceElement(nameField.getText().toString(), Integer.parseInt(lengthField.getSelectedItem().toString()));
+            ((MainActivity) getActivity()).getDanceSpace().save(newElement);
+        } catch (Exception e) {
+            Toast.makeText(getActivity(), "An error occurred while trying to save new element!", Toast.LENGTH_SHORT).show();
+        }
+
+        nameField.setText("");
+        return false;
+    }
+
+
 }

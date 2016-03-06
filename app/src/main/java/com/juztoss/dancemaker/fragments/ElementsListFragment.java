@@ -6,7 +6,9 @@ import android.app.FragmentManager;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -34,12 +36,18 @@ public class ElementsListFragment extends ListFragment implements ElementDeleteL
             public void onClick(View view) {
                 Fragment fragment = new AddNewElementFragment();
                 FragmentManager fragmentManager = activity.getFragmentManager();
+                fragment.setHasOptionsMenu(true);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, fragment)
                         .commit();
 
+                activity.invalidateOptionsMenu();
+                getFragmentManager().invalidateOptionsMenu();
             }
         });
+
+        ActionBar actionBar = ((MainActivity)getActivity()).getSupportActionBar();
+        actionBar.setTitle("All elements");
 
         return rootView;
     }
@@ -59,5 +67,10 @@ public class ElementsListFragment extends ListFragment implements ElementDeleteL
         } catch (DanceException e) {
             Toast.makeText(getActivity(), "Unfortunately element hasn't been deleted!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.clear();
     }
 }
