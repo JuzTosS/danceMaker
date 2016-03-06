@@ -143,19 +143,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         return false;
     }
-
-    public void onSequenceSaveClick(View view) {
-        TextView nameField = (TextView) findViewById(R.id.element_name);
-        TextView lengthField = (TextView) findViewById(R.id.element_length);
-
-        try {
-            DanceSequence newSequence = new DanceSequence(nameField.getText().toString(), mDanceSpace.getAllElements());
-            mDanceSpace.save(newSequence);
-        } catch (Exception e) {
-            Toast.makeText(this, "An error occurred while trying to save new sequence!", Toast.LENGTH_SHORT).show();
-        }
-
-        nameField.setText("");
-        lengthField.setText("");
-    }
 }

@@ -11,5 +11,6 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/menu_background"
+        android:contentDescription="@string/app_name"
         android:id="@+id/imageView" />
 </LinearLayout>

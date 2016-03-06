@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp">
         <!-- Bottom View Start-->
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/bottom_wrapper"
             android:layout_width="60dp"
             android:layout_height="match_parent"
@@ -16,21 +16,16 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageButton
-                    android:id="@+id/buttonDelete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="0dp"
-                    android:background="@drawable/ic_delete_forever_white_48dp" />
-            </RelativeLayout>
+            <ImageButton
+                android:id="@+id/buttonDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:contentDescription="@string/delete"
+                android:background="@drawable/ic_delete_forever_white_48dp" />
 
 
-        </LinearLayout>
+        </RelativeLayout>
         <!-- Bottom View End-->
 
         <!-- Surface View Start -->
@@ -48,7 +43,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:textColor="@color/black"
-                android:text="Name"
+                android:text="@string/mock"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -58,7 +53,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:text="Length X"
+                android:text="@string/mock"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </RelativeLayout>
         <!-- Surface View End -->

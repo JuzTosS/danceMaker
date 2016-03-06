@@ -14,12 +14,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Name"
+            android:text="@string/name"
             android:id="@+id/textView"
             android:layout_gravity="center_vertical"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp" />
 
         <EditText
@@ -52,12 +53,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Lentgh"
+            android:text="@string/length"
             android:id="@+id/textView3"
             android:layout_gravity="center_vertical"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp" />
 
         <Spinner
@@ -66,7 +68,9 @@
             android:id="@+id/element_length"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="46dp"
+            android:layout_marginStart="10dp"
             android:layout_alignParentTop="false"
+            android:layout_toEndOf="@+id/textView3"
             android:layout_toRightOf="@+id/textView3"
             android:layout_centerVertical="true" />
 
