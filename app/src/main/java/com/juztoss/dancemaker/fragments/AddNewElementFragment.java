@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.activities.MainActivity;
 import com.juztoss.dancemaker.model.DanceElement;
+import com.juztoss.dancemaker.model.DanceException;
 
 /**
  * Created by Kirill on 2/27/2016.
@@ -72,15 +73,19 @@ public class AddNewElementFragment extends Fragment {
 
         TextView nameField = (TextView) getActivity().findViewById(R.id.element_name);
         Spinner lengthField = (Spinner) getActivity().findViewById(R.id.element_length);
-
+        MainActivity activity = (MainActivity) getActivity();
         try {
-            DanceElement newElement = new DanceElement(nameField.getText().toString(), Integer.parseInt(lengthField.getSelectedItem().toString()));
-            ((MainActivity) getActivity()).getDanceSpace().save(newElement);
+            String name = nameField.getText().toString();
+            if(name.length() <= 0)
+                throw new DanceException("Empty name!");
+
+            DanceElement newElement = new DanceElement(name, Integer.parseInt(lengthField.getSelectedItem().toString()));
+            activity.getDanceSpace().save(newElement);
         } catch (Exception e) {
             Toast.makeText(getActivity(), "An error occurred while trying to save new element!", Toast.LENGTH_SHORT).show();
         }
 
-        nameField.setText("");
+        activity.showAllElements();
         return false;
     }
 

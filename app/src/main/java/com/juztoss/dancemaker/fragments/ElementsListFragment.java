@@ -1,8 +1,5 @@
 package com.juztoss.dancemaker.fragments;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -30,19 +27,11 @@ public class ElementsListFragment extends ListFragment implements ElementDeleteL
         View rootView = inflater.inflate(R.layout.fragment_elements_list, container, false);
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        final Activity activity = getActivity();
+        final MainActivity activity = (MainActivity)getActivity();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = new AddNewElementFragment();
-                FragmentManager fragmentManager = activity.getFragmentManager();
-                fragment.setHasOptionsMenu(true);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, fragment)
-                        .commit();
-
-                activity.invalidateOptionsMenu();
-                getFragmentManager().invalidateOptionsMenu();
+                activity.showAddNewElement();
             }
         });
 

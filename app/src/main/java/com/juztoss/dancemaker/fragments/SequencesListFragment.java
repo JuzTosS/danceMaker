@@ -1,8 +1,5 @@
 package com.juztoss.dancemaker.fragments;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -21,7 +18,7 @@ import com.juztoss.dancemaker.model.DanceSequence;
 /**
  * Created by Kirill on 2/27/2016.
  */
-public class SequenceListFragment extends ListFragment implements SequenceDeleteListener {
+public class SequencesListFragment extends ListFragment implements SequenceDeleteListener {
 
     private DanceSequenceListAdapter mAdapter;
 
@@ -30,20 +27,15 @@ public class SequenceListFragment extends ListFragment implements SequenceDelete
         View rootView = inflater.inflate(R.layout.fragment_sequences_list, container, false);
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        final Activity activity = getActivity();
+        final MainActivity activity = (MainActivity) getActivity();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = new AddNewSequenceFragment();
-                FragmentManager fragmentManager = activity.getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, fragment)
-                        .commit();
-
+                activity.showAddNewSequence();
             }
         });
 
-        ActionBar actionBar = ((MainActivity)getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
         actionBar.setTitle("Sequences");
 
         return rootView;

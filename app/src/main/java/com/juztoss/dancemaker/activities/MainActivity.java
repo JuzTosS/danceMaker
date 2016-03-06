@@ -6,25 +6,28 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.juztoss.dancemaker.R;
+import com.juztoss.dancemaker.fragments.AddNewElementFragment;
+import com.juztoss.dancemaker.fragments.AddNewSequenceFragment;
 import com.juztoss.dancemaker.fragments.ElementsListFragment;
-import com.juztoss.dancemaker.fragments.SequenceListFragment;
-import com.juztoss.dancemaker.model.DanceElement;
+import com.juztoss.dancemaker.fragments.SequencesListFragment;
 import com.juztoss.dancemaker.model.DanceSequence;
 import com.juztoss.dancemaker.model.DanceSpace;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DanceSpace mDanceSpace;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private Toolbar mToolbar;
 
     public DanceSpace getDanceSpace() {
         return mDanceSpace;
@@ -38,17 +41,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDanceSpace = new DanceSpace(this);
 
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(mDrawerToggle);
+
+        mDrawerToggle.syncState();
+        setSupportActionBar(mToolbar);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        showAllElements();
     }
 
     @Override
@@ -61,45 +68,79 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-
-        Fragment fragment;
-        FragmentManager fragmentManager = getFragmentManager(); // For AppCompat use getSupportFragmentManager
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.element_list:
-                fragment = new ElementsListFragment();
-                break;
-            case R.id.element_create_sequence:
-                fragment = new SequenceListFragment();
-                break;
-            default:
-                return false;
-        }
-
+    public void showAllElements() {
+        Fragment fragment = new ElementsListFragment();
+        fragment.setHasOptionsMenu(true);
+        FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        mDrawerToggle.syncState();
+    }
+
+    public void showAllSequences() {
+        Fragment fragment = new SequencesListFragment();
+        fragment.setHasOptionsMenu(true);
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        mDrawerToggle.syncState();
+    }
+
+    public void showAddNewElement() {
+        Fragment fragment = new AddNewElementFragment();
+        fragment.setHasOptionsMenu(true);
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle.onDrawerOpened(null);
+
+        drawer.closeDrawer(GravityCompat.START);
+    }
+
+    public void showAddNewSequence() {
+        Fragment fragment = new AddNewSequenceFragment();
+        fragment.setHasOptionsMenu(true);
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle.onDrawerOpened(null);
+        drawer.closeDrawer(GravityCompat.START);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.openDrawer(GravityCompat.START);
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.element_list:
+                showAllElements();
+                break;
+            case R.id.element_create_sequence:
+                showAllSequences();
+                break;
+        }
+
         return false;
     }
 

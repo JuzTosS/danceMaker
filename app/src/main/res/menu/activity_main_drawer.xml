@@ -8,7 +8,7 @@
             android:title="All elements" />
         <item
             android:id="@+id/element_create_sequence"
-            android:icon="@drawable/menu_sequences"
+            android:icon="@drawable/ic_list_black_24dp"
             android:title="Sequences" />
     </group>
 
