@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="none">
         <item
             android:id="@+id/element_list"
+            android:icon="@drawable/menu_elements"
             android:title="All elements" />
         <item
             android:id="@+id/element_create_sequence"
+            android:icon="@drawable/menu_sequences"
             android:title="Sequences" />
     </group>
 

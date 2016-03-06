@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -65,7 +66,7 @@ public class DanceElementListAdapter extends BaseAdapter implements ListAdapter 
         }
 
         TextView nameField = (TextView) view.findViewById(R.id.nameField);
-        Button deleteButton = (Button) view.findViewById(R.id.buttonDelete);
+        ImageButton deleteButton = (ImageButton) view.findViewById(R.id.buttonDelete);
 
         final DanceElement el = (DanceElement) getItem(position);
         nameField.setText(el.name());
