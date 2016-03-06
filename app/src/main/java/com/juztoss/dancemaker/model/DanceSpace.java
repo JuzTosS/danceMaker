@@ -37,6 +37,9 @@ public class DanceSpace {
         cursor.moveToFirst();
 
         do {
+            if(cursor.getCount() <= 0)
+                break;
+
             String elementName = cursor.getString(cursor.getColumnIndex(DatabaseHelper.ELEMENT_NAME_COLUMN));
             String id = cursor.getString(cursor.getColumnIndex(DatabaseHelper._ID));
             int elementLength = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.ELEMENT_LENGTH_COLUMN));
@@ -51,20 +54,23 @@ public class DanceSpace {
                 null, null, null);
         cursor.moveToFirst();
         do {
+            if(cursor.getCount() <= 0)
+                break;
+
             String sequenceName = cursor.getString(cursor.getColumnIndex(DatabaseHelper.SEQUENCES_NAME_COLUMN));
-            String id = cursor.getString(cursor.getColumnIndex(DatabaseHelper._ID));
+            String sequenceId = cursor.getString(cursor.getColumnIndex(DatabaseHelper._ID));
             String elementsString = cursor.getString(cursor.getColumnIndex(DatabaseHelper.SEQUENCES_ELEMENTS_COLUMN));
             ArrayList<DanceElement> elements = new ArrayList<>();
             Cursor elCursor = mDb.rawQuery("select * from " + DatabaseHelper.TABLE_ELEMENTS + " where " + DatabaseHelper._ID + " in (" + elementsString + ")", null);
             elCursor.moveToFirst();
             do {
                 String elementName = elCursor.getString(elCursor.getColumnIndex(DatabaseHelper.ELEMENT_NAME_COLUMN));
-                id = elCursor.getString(elCursor.getColumnIndex(DatabaseHelper._ID));
+                String id = elCursor.getString(elCursor.getColumnIndex(DatabaseHelper._ID));
                 int elementLength = elCursor.getInt(elCursor.getColumnIndex(DatabaseHelper.ELEMENT_LENGTH_COLUMN));
                 elements.add(new DanceElement(id, elementName, elementLength));
             } while (elCursor.moveToNext());
             elCursor.close();
-            mSequences.add(new DanceSequence(id, sequenceName, elements));
+            mSequences.add(new DanceSequence(sequenceId, sequenceName, elements));
         } while (cursor.moveToNext());
         cursor.close();
     }
