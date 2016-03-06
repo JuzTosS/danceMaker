@@ -1,37 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Generate new sequence"
-        android:id="@+id/textView2"
-        android:layout_gravity="center_horizontal" />
-
-    <EditText
+    <RelativeLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/element_name"
-        android:layout_gravity="center_horizontal" />
+        android:layout_height="50dp"
+        android:baselineAligned="false">
 
-    <EditText
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Name"
+            android:id="@+id/textView"
+            android:layout_gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp" />
+
+        <EditText
+            android:id="@+id/sequence_name"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:lines="1"
+            android:linksClickable="false"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/transparent_edit_text"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:inputType="text" />
+
+    </RelativeLayout>
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/element_length" />
+        android:layout_height="1dp"
+        android:background="@color/lighter_gray"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save"
-        android:id="@+id/buttonSave"
-        android:onClick="onSequenceSaveClick"
-        android:layout_gravity="center_horizontal" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Lentgh"
+            android:id="@+id/textView3"
+            android:layout_gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp" />
+
+        <EditText
+            android:id="@+id/sequence_length"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:lines="1"
+            android:linksClickable="false"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/transparent_edit_text"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:inputType="number" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/lighter_gray" />
 
 </LinearLayout>

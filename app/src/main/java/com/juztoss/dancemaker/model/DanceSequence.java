@@ -1,13 +1,11 @@
 package com.juztoss.dancemaker.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by Kirill on 2/28/2016.
  */
-public class DanceSequence extends ArrayList<DanceElement> {
+public class DanceSequence {
 
     private int mLength;
     private String mId;
@@ -45,5 +43,9 @@ public class DanceSequence extends ArrayList<DanceElement> {
 
     public List<DanceElement> getmElements() {
         return mElements;
+    }
+
+    public static DanceSequence generateNew(String name, int length, List<DanceElement> allElements) {
+        return new DanceSequence(name, allElements);
     }
 }

@@ -36,12 +36,12 @@ public class DanceSpace {
 
         cursor.moveToFirst();
 
-        while (cursor.moveToNext()) {
+        do {
             String elementName = cursor.getString(cursor.getColumnIndex(DatabaseHelper.ELEMENT_NAME_COLUMN));
             String id = cursor.getString(cursor.getColumnIndex(DatabaseHelper._ID));
             int elementLength = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.ELEMENT_LENGTH_COLUMN));
             mAllElements.add(new DanceElement(id, elementName, elementLength));
-        }
+        } while (cursor.moveToNext());
         cursor.close();
 
         mSequences = new ArrayList<>();
@@ -50,23 +50,22 @@ public class DanceSpace {
                 null, null,
                 null, null, null);
         cursor.moveToFirst();
-        while (cursor.moveToNext()) {
-            String elementName = cursor.getString(cursor.getColumnIndex(DatabaseHelper.SEQUENCES_NAME_COLUMN));
+        do {
+            String sequenceName = cursor.getString(cursor.getColumnIndex(DatabaseHelper.SEQUENCES_NAME_COLUMN));
             String id = cursor.getString(cursor.getColumnIndex(DatabaseHelper._ID));
             String elementsString = cursor.getString(cursor.getColumnIndex(DatabaseHelper.SEQUENCES_ELEMENTS_COLUMN));
             ArrayList<DanceElement> elements = new ArrayList<>();
             Cursor elCursor = mDb.rawQuery("select * from " + DatabaseHelper.TABLE_ELEMENTS + " where " + DatabaseHelper._ID + " in (" + elementsString + ")", null);
             elCursor.moveToFirst();
-            while (elCursor.moveToNext())
-            {
-                elementName = elCursor.getString(elCursor.getColumnIndex(DatabaseHelper.ELEMENT_NAME_COLUMN));
+            do {
+                String elementName = elCursor.getString(elCursor.getColumnIndex(DatabaseHelper.ELEMENT_NAME_COLUMN));
                 id = elCursor.getString(elCursor.getColumnIndex(DatabaseHelper._ID));
                 int elementLength = elCursor.getInt(elCursor.getColumnIndex(DatabaseHelper.ELEMENT_LENGTH_COLUMN));
                 elements.add(new DanceElement(id, elementName, elementLength));
-            }
+            } while (elCursor.moveToNext());
             elCursor.close();
-            mSequences.add(new DanceSequence(id, elementName, elements));
-        }
+            mSequences.add(new DanceSequence(id, sequenceName, elements));
+        } while (cursor.moveToNext());
         cursor.close();
     }
 

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -62,17 +63,19 @@ public class DanceSequenceListAdapter extends BaseAdapter implements ListAdapter
         }
 
         TextView nameField = (TextView) view.findViewById(R.id.nameField);
-        Button deleteButton = (Button) view.findViewById(R.id.buttonDelete);
+        TextView lengthField = (TextView) view.findViewById(R.id.lengthField);
+        ImageButton deleteButton = (ImageButton) view.findViewById(R.id.buttonDelete);
 
-        final DanceSequence el = (DanceSequence) getItem(position);
-        nameField.setText(el.getName());
+        final DanceSequence seq = (DanceSequence) getItem(position);
+        nameField.setText(seq.getName());
+        lengthField.setText("Length " + seq.getLength());
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (mOnSequenceDeleteListener != null) {
-                    mOnSequenceDeleteListener.onDelete(el);
+                    mOnSequenceDeleteListener.onDelete(seq);
                 }
                 mDanceSequences.remove(position);
                 notifyDataSetChanged();
