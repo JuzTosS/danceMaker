@@ -82,7 +82,7 @@ public class AddNewElementFragment extends Fragment {
             DanceElement newElement = new DanceElement(name, Integer.parseInt(lengthField.getSelectedItem().toString()));
             activity.getDanceSpace().save(newElement);
         } catch (Exception e) {
-            Toast.makeText(getActivity(), "An error occurred while trying to save new element!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "The element hasn't been saved!", Toast.LENGTH_SHORT).show();
         }
 
         activity.showAllElements();

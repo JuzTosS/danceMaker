@@ -66,10 +66,12 @@ public class DanceElementListAdapter extends BaseAdapter implements ListAdapter 
         }
 
         TextView nameField = (TextView) view.findViewById(R.id.nameField);
+        TextView lengthField = (TextView) view.findViewById(R.id.lengthField);
         ImageButton deleteButton = (ImageButton) view.findViewById(R.id.buttonDelete);
 
         final DanceElement el = (DanceElement) getItem(position);
         nameField.setText(el.name());
+        lengthField.setText("Length " + Integer.toString(el.length()));
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
