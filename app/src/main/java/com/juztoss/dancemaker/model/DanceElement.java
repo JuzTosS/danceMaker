@@ -1,5 +1,6 @@
 package com.juztoss.dancemaker.model;
 
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -53,6 +54,25 @@ public class DanceElement implements Parcelable {
         dest.writeString(mId);
         dest.writeString(mName);
         dest.writeInt(mLength);
+    }
+
+    public void save() {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.ELEMENT_NAME_COLUMN, getName());
+        values.put(DatabaseHelper.ELEMENT_LENGTH_COLUMN, getLength());
+
+        if (isNew()) {
+            DatabaseHelper.db().insert(DatabaseHelper.TABLE_ELEMENTS, DatabaseHelper.ELEMENT_NAME_COLUMN, values);
+        } else {
+            DatabaseHelper.db().update(DatabaseHelper.TABLE_ELEMENTS, values, DatabaseHelper._ID + "= ?", new String[]{getId()});
+        }
+    }
+
+    public void delete() throws DanceException {
+        if (isNew())
+            throw new DanceException("Element doesn't exist");
+
+        DatabaseHelper.db().delete(DatabaseHelper.TABLE_SEQUENCES, DatabaseHelper._ID + "= ?", new String[]{getId()});
     }
 
     public static final Parcelable.Creator<DanceElement> CREATOR

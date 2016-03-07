@@ -61,7 +61,7 @@ public class SequencesListFragment extends ListFragment implements SequenceListL
     @Override
     public void onDelete(DanceSequence sequence) {
         try {
-            ((MainActivity) getActivity()).getDanceSpace().delete(sequence);
+            sequence.delete();
         } catch (DanceException e) {
             Toast.makeText(getActivity(), "Unfortunately sequence hasn't been deleted!", Toast.LENGTH_SHORT).show();
         }

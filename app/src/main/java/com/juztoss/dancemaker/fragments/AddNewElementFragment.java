@@ -81,7 +81,7 @@ public class AddNewElementFragment extends Fragment {
                 throw new DanceException("Empty name!");
 
             DanceElement newElement = new DanceElement(name, Integer.parseInt(lengthField.getSelectedItem().toString()));
-            activity.getDanceSpace().save(newElement);
+            newElement.save();
         } catch (Exception e) {
             Toast.makeText(getActivity(), "The element hasn't been saved!", Toast.LENGTH_SHORT).show();
         }

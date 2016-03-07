@@ -12,6 +12,7 @@ import android.util.Log;
  */
 class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns{
 
+    private static SQLiteDatabase mDb;
     // имя базы данных
     private static final String DATABASE_NAME = "mydatabase.db";
     // версия базы данных
@@ -38,6 +39,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns{
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        mDb = getWritableDatabase();
     }
 
     @Override
@@ -53,5 +55,10 @@ class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns{
         db.execSQL("DROP TABLE IF EXISTS '" + TABLE_ELEMENTS + "';");
         db.execSQL("DROP TABLE IF EXISTS '" + TABLE_SEQUENCES + "';");
         onCreate(db);
+    }
+
+    public static SQLiteDatabase db()
+    {
+        return mDb;
     }
 }

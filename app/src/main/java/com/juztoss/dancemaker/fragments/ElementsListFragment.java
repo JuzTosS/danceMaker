@@ -52,7 +52,7 @@ public class ElementsListFragment extends ListFragment implements ElementDeleteL
     @Override
     public void onDelete(DanceElement element) {
         try {
-            ((MainActivity) getActivity()).getDanceSpace().delete(element);
+            element.delete();
         } catch (DanceException e) {
             Toast.makeText(getActivity(), "Unfortunately element hasn't been deleted!", Toast.LENGTH_SHORT).show();
         }

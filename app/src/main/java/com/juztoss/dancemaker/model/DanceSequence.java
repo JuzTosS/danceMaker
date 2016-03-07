@@ -1,5 +1,6 @@
 package com.juztoss.dancemaker.model;
 
+import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -18,8 +19,7 @@ public class DanceSequence implements Parcelable {
     private boolean mIsNew = false;
 
     public DanceSequence(String name, List<DanceElement> elements) {
-        mElements = elements;
-        mName = name;
+        this("", name, elements);
         mIsNew = true;
     }
 
@@ -71,6 +71,38 @@ public class DanceSequence implements Parcelable {
         dest.writeArray(mElements.toArray());
     }
 
+    public void delete(DanceElement element) {
+        mElements.remove(element);
+        save();
+    }
+
+    public void save() {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.SEQUENCES_NAME_COLUMN, getName());
+        String elements = "";
+        List<DanceElement> danceElements = getmElements();
+        for (DanceElement el : danceElements) {
+            if (!elements.isEmpty())
+                elements += ",";
+
+            elements += el.getId();
+        }
+        values.put(DatabaseHelper.SEQUENCES_ELEMENTS_COLUMN, elements);
+
+        if (isNew()) {
+            DatabaseHelper.db().insert(DatabaseHelper.TABLE_SEQUENCES, DatabaseHelper.ELEMENT_NAME_COLUMN, values);
+        } else {
+            DatabaseHelper.db().update(DatabaseHelper.TABLE_SEQUENCES, values, DatabaseHelper._ID + "= ?", new String[]{getId()});
+        }
+    }
+
+    public void delete() throws DanceException {
+        if (isNew())
+            throw new DanceException("Element doesn't exist");
+
+        DatabaseHelper.db().delete(DatabaseHelper.TABLE_SEQUENCES, DatabaseHelper._ID + "= ?", new String[]{getId()});
+    }
+
     public static final Creator<DanceSequence> CREATOR
             = new Creator<DanceSequence>() {
         @Override
@@ -98,8 +130,4 @@ public class DanceSequence implements Parcelable {
             return new DanceSequence[size];
         }
     };
-
-    public void delete(DanceElement element) {
-        mElements.remove(element);
-    }
 }
