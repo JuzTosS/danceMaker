@@ -1,11 +1,9 @@
-package com.juztoss.dancemaker.fragments;
+package com.juztoss.dancemaker.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
@@ -13,42 +11,37 @@ import android.widget.TextView;
 
 import com.daimajia.swipe.SwipeLayout;
 import com.juztoss.dancemaker.R;
-import com.juztoss.dancemaker.model.DanceSequence;
+import com.juztoss.dancemaker.model.DanceElement;
 
 import java.util.List;
-
-interface SequenceListListener {
-    void onDelete(DanceSequence Sequence);
-    void onClick(DanceSequence Sequence);
-}
 
 /**
  * Created by Kirill on 2/27/2016.
  */
-public class DanceSequenceListAdapter extends BaseAdapter implements ListAdapter {
+public class DanceElementListAdapter extends BaseAdapter implements ListAdapter {
 
-    private List<DanceSequence> mDanceSequences;
+    private List<DanceElement> mDanceElements;
     private Context context;
-    private SequenceListListener mOnSequenceListListener;
+    private ElementListListener mOnElementListListener;
 
 
-    public DanceSequenceListAdapter(Context context, List<DanceSequence> danceSequences) {
-        mDanceSequences = danceSequences;
+    public DanceElementListAdapter(Context context, List<DanceElement> danceElements) {
+        mDanceElements = danceElements;
         this.context = context;
     }
 
-    public void setListener(SequenceListListener onSequenceListListener) {
-        mOnSequenceListListener = onSequenceListListener;
+    public void setDeleteListener(ElementListListener onElementListListener) {
+        mOnElementListListener = onElementListListener;
     }
 
     @Override
     public int getCount() {
-        return mDanceSequences.size();
+        return mDanceElements.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mDanceSequences.get(position);
+        return mDanceElements.get(position);
     }
 
     @Override
@@ -62,25 +55,26 @@ public class DanceSequenceListAdapter extends BaseAdapter implements ListAdapter
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.list_sequence, null);
+            view = inflater.inflate(R.layout.list_element, null);
         }
 
         TextView nameField = (TextView) view.findViewById(R.id.nameField);
         TextView lengthField = (TextView) view.findViewById(R.id.lengthField);
         ImageButton deleteButton = (ImageButton) view.findViewById(R.id.buttonDelete);
 
-        final DanceSequence seq = (DanceSequence) getItem(position);
-        nameField.setText(seq.getName());
+        final DanceElement el = (DanceElement) getItem(position);
+        nameField.setText(el.getName());
         String original = view.getContext().getString(R.string.length_with_number);
-        lengthField.setText(String.format(original, seq.getLength()));
+        lengthField.setText(String.format(original, el.getLength()));
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnSequenceListListener != null)
-                    mOnSequenceListListener.onDelete(seq);
 
-                mDanceSequences.remove(position);
+                if (mOnElementListListener != null) {
+                    mOnElementListListener.onDelete(el);
+                }
+                mDanceElements.remove(position);
                 notifyDataSetChanged();
             }
         });
@@ -90,13 +84,17 @@ public class DanceSequenceListAdapter extends BaseAdapter implements ListAdapter
         swipeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnSequenceListListener != null && swipeLayout.getOpenStatus() == SwipeLayout.Status.Close)
-                    mOnSequenceListListener.onClick(seq);
+                if (mOnElementListListener != null && swipeLayout.getOpenStatus() == SwipeLayout.Status.Close)
+                    mOnElementListListener.onClick(el);
             }
         });
 
         return view;
     }
 
+    public interface ElementListListener {
+        void onDelete(DanceElement element);
+        void onClick(DanceElement element);
+    }
 
 }

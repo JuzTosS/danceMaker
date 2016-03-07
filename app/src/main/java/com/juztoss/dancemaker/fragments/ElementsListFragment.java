@@ -12,13 +12,14 @@ import android.widget.Toast;
 
 import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.activities.MainActivity;
+import com.juztoss.dancemaker.adapters.DanceElementListAdapter;
 import com.juztoss.dancemaker.model.DanceElement;
 import com.juztoss.dancemaker.model.DanceException;
 
 /**
  * Created by Kirill on 2/27/2016.
  */
-public class ElementsListFragment extends ListFragment implements ElementListListener {
+public class ElementsListFragment extends ListFragment implements DanceElementListAdapter.ElementListListener {
 
     private DanceElementListAdapter mAdapter;
 
@@ -27,7 +28,7 @@ public class ElementsListFragment extends ListFragment implements ElementListLis
         View rootView = inflater.inflate(R.layout.fragment_elements_list, container, false);
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        final MainActivity activity = (MainActivity)getActivity();
+        final MainActivity activity = (MainActivity) getActivity();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -35,9 +36,8 @@ public class ElementsListFragment extends ListFragment implements ElementListLis
             }
         });
 
-        ActionBar actionBar = ((MainActivity)getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
         actionBar.setTitle("All elements");
-
         return rootView;
     }
 

@@ -3,6 +3,7 @@ package com.juztoss.dancemaker.model;
 import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import java.util.Arrays;
 import java.util.List;
@@ -90,9 +91,10 @@ public class DanceSequence implements Parcelable {
         values.put(DatabaseHelper.SEQUENCES_ELEMENTS_COLUMN, elements);
 
         if (isNew()) {
-            DatabaseHelper.db().insert(DatabaseHelper.TABLE_SEQUENCES, DatabaseHelper.ELEMENT_NAME_COLUMN, values);
+            DatabaseHelper.db().insert(DatabaseHelper.TABLE_SEQUENCES, DatabaseHelper.SEQUENCES_NAME_COLUMN, values);
         } else {
-            DatabaseHelper.db().update(DatabaseHelper.TABLE_SEQUENCES, values, DatabaseHelper._ID + "= ?", new String[]{getId()});
+            int result = DatabaseHelper.db().update(DatabaseHelper.TABLE_SEQUENCES, values, DatabaseHelper._ID + "= ?", new String[]{getId()});
+            Log.d("DEBUG", "rows affected:" + result);
         }
     }
 

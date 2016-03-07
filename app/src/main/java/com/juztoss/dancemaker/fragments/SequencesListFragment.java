@@ -8,18 +8,18 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.activities.MainActivity;
+import com.juztoss.dancemaker.adapters.DanceSequenceListAdapter;
 import com.juztoss.dancemaker.model.DanceException;
 import com.juztoss.dancemaker.model.DanceSequence;
 
 /**
  * Created by Kirill on 2/27/2016.
  */
-public class SequencesListFragment extends ListFragment implements SequenceListListener {
+public class SequencesListFragment extends ListFragment implements DanceSequenceListAdapter.SequenceListListener {
 
     private DanceSequenceListAdapter mAdapter;
 
@@ -38,8 +38,6 @@ public class SequencesListFragment extends ListFragment implements SequenceListL
 
         ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
         actionBar.setTitle("Sequences");
-
-
 
         return rootView;
     }

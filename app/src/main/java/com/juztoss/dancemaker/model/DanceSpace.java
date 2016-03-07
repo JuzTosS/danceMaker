@@ -30,15 +30,19 @@ public class DanceSpace {
             String sequenceId = cursor.getString(cursor.getColumnIndex(DatabaseHelper._ID));
             String elementsString = cursor.getString(cursor.getColumnIndex(DatabaseHelper.SEQUENCES_ELEMENTS_COLUMN));
             ArrayList<DanceElement> elements = new ArrayList<>();
-            Cursor elCursor = DatabaseHelper.db().rawQuery("select * from " + DatabaseHelper.TABLE_ELEMENTS + " where " + DatabaseHelper._ID + " in (" + elementsString + ")", null);
-            elCursor.moveToFirst();
-            do {
-                String elementName = elCursor.getString(elCursor.getColumnIndex(DatabaseHelper.ELEMENT_NAME_COLUMN));
-                String id = elCursor.getString(elCursor.getColumnIndex(DatabaseHelper._ID));
-                int elementLength = elCursor.getInt(elCursor.getColumnIndex(DatabaseHelper.ELEMENT_LENGTH_COLUMN));
-                elements.add(new DanceElement(id, elementName, elementLength));
-            } while (elCursor.moveToNext());
-            elCursor.close();
+            String[] elementsIds = elementsString.split(",");
+
+            for (String elementId : elementsIds) {
+                Cursor elCursor = DatabaseHelper.db().rawQuery("select * from " + DatabaseHelper.TABLE_ELEMENTS + " where " + DatabaseHelper._ID + " in (" + elementId + ")", null);
+                if (elCursor.moveToFirst()) {
+                    String elementName = elCursor.getString(elCursor.getColumnIndex(DatabaseHelper.ELEMENT_NAME_COLUMN));
+                    String id = elCursor.getString(elCursor.getColumnIndex(DatabaseHelper._ID));
+                    int elementLength = elCursor.getInt(elCursor.getColumnIndex(DatabaseHelper.ELEMENT_LENGTH_COLUMN));
+                    elements.add(new DanceElement(id, elementName, elementLength));
+                }
+                elCursor.close();
+            }
+
             sequences.add(new DanceSequence(sequenceId, sequenceName, elements));
         } while (cursor.moveToNext());
         cursor.close();

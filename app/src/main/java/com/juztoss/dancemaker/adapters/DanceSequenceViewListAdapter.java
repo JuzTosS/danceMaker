@@ -1,4 +1,4 @@
-package com.juztoss.dancemaker.fragments;
+package com.juztoss.dancemaker.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,10 +12,6 @@ import android.widget.TextView;
 import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.model.DanceElement;
 import com.juztoss.dancemaker.model.DanceSequence;
-
-interface SequenceViewDeleteListener {
-    void onDelete(DanceElement element);
-}
 
 /**
  * Created by Kirill on 2/27/2016.
@@ -57,7 +53,7 @@ public class DanceSequenceViewListAdapter extends BaseAdapter implements ListAda
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.list_sequence, null);
+            view = inflater.inflate(R.layout.list_sequence_element, null);
         }
 
         TextView nameField = (TextView) view.findViewById(R.id.nameField);
@@ -83,5 +79,7 @@ public class DanceSequenceViewListAdapter extends BaseAdapter implements ListAda
         return view;
     }
 
-
+    public interface SequenceViewDeleteListener {
+        void onDelete(DanceElement element);
+    }
 }
