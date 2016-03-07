@@ -1,6 +1,5 @@
 package com.juztoss.dancemaker.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +9,15 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.daimajia.swipe.SwipeLayout;
 import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.model.DanceElement;
 
 import java.util.List;
 
-interface ElementDeleteListener {
+interface ElementListListener {
     void onDelete(DanceElement element);
+    void onClick(DanceElement element);
 }
 
 /**
@@ -26,7 +27,7 @@ public class DanceElementListAdapter extends BaseAdapter implements ListAdapter 
 
     private List<DanceElement> mDanceElements;
     private Context context;
-    private ElementDeleteListener mOnElementDeleteListener;
+    private ElementListListener mOnElementListListener;
 
 
     public DanceElementListAdapter(Context context, List<DanceElement> danceElements) {
@@ -34,8 +35,8 @@ public class DanceElementListAdapter extends BaseAdapter implements ListAdapter 
         this.context = context;
     }
 
-    public void setDeleteListener(ElementDeleteListener onElementDeleteListener) {
-        mOnElementDeleteListener = onElementDeleteListener;
+    public void setDeleteListener(ElementListListener onElementListListener) {
+        mOnElementListListener = onElementListListener;
     }
 
     @Override
@@ -75,11 +76,21 @@ public class DanceElementListAdapter extends BaseAdapter implements ListAdapter 
             @Override
             public void onClick(View v) {
 
-                if (mOnElementDeleteListener != null) {
-                    mOnElementDeleteListener.onDelete(el);
+                if (mOnElementListListener != null) {
+                    mOnElementListListener.onDelete(el);
                 }
                 mDanceElements.remove(position);
                 notifyDataSetChanged();
+            }
+        });
+
+        final SwipeLayout swipeLayout = (SwipeLayout)view.findViewById(R.id.swipe_list_element);
+        swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
+        swipeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnElementListListener != null && swipeLayout.getOpenStatus() == SwipeLayout.Status.Close)
+                    mOnElementListListener.onClick(el);
             }
         });
 

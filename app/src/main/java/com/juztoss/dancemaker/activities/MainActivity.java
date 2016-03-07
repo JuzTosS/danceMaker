@@ -7,21 +7,18 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.juztoss.dancemaker.R;
-import com.juztoss.dancemaker.fragments.AddNewElementFragment;
+import com.juztoss.dancemaker.fragments.ElementViewFragment;
 import com.juztoss.dancemaker.fragments.AddNewSequenceFragment;
 import com.juztoss.dancemaker.fragments.ElementsListFragment;
 import com.juztoss.dancemaker.fragments.SequenceViewFragment;
 import com.juztoss.dancemaker.fragments.SequencesListFragment;
+import com.juztoss.dancemaker.model.DanceElement;
 import com.juztoss.dancemaker.model.DanceSequence;
 import com.juztoss.dancemaker.model.DanceSpace;
 
@@ -105,8 +102,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         showFragment(fragment, true, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
     }
 
+    public void showElement(DanceElement element) {
+        Fragment fragment = new ElementViewFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(DanceElement.ALIAS, element);
+        fragment.setArguments(args);
+        showFragment(fragment, true, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+    }
+
     public void showAddNewElement() {
-        Fragment fragment = new AddNewElementFragment();
+        Fragment fragment = new ElementViewFragment();
         showFragment(fragment, true, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
     }
 

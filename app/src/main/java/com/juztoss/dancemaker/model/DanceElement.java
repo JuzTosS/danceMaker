@@ -9,6 +9,7 @@ import android.os.Parcelable;
  */
 public class DanceElement implements Parcelable {
 
+    public static final String ALIAS = "DanceElement";
     private String mName;
     private String mId;
     private int mLength;

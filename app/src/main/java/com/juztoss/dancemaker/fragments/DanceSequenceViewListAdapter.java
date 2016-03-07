@@ -13,8 +13,6 @@ import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.model.DanceElement;
 import com.juztoss.dancemaker.model.DanceSequence;
 
-import java.util.List;
-
 interface SequenceViewDeleteListener {
     void onDelete(DanceElement element);
 }
@@ -40,12 +38,12 @@ public class DanceSequenceViewListAdapter extends BaseAdapter implements ListAda
 
     @Override
     public int getCount() {
-        return mDanceSequence.getmElements().size();
+        return mDanceSequence.getElements().size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mDanceSequence.getmElements().get(position);
+        return mDanceSequence.getElements().get(position);
     }
 
     @Override

@@ -45,12 +45,6 @@ public class SequencesListFragment extends ListFragment implements SequenceListL
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        DanceSequence seq = ((MainActivity) getActivity()).getDanceSpace().getSequences().get(position);
-        ((MainActivity) getActivity()).showSequence(seq);
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mAdapter = new DanceSequenceListAdapter(getActivity(), ((MainActivity) getActivity()).getDanceSpace().getSequences());

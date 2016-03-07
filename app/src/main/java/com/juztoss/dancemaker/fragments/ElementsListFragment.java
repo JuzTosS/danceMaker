@@ -18,7 +18,7 @@ import com.juztoss.dancemaker.model.DanceException;
 /**
  * Created by Kirill on 2/27/2016.
  */
-public class ElementsListFragment extends ListFragment implements ElementDeleteListener {
+public class ElementsListFragment extends ListFragment implements ElementListListener {
 
     private DanceElementListAdapter mAdapter;
 
@@ -56,6 +56,12 @@ public class ElementsListFragment extends ListFragment implements ElementDeleteL
         } catch (DanceException e) {
             Toast.makeText(getActivity(), "Unfortunately element hasn't been deleted!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    @Override
+    public void onClick(DanceElement element) {
+        ((MainActivity) getActivity()).showElement(element);
     }
 
     @Override

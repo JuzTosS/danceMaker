@@ -50,7 +50,7 @@ public class DanceSequence implements Parcelable {
         return length;
     }
 
-    public List<DanceElement> getmElements() {
+    public List<DanceElement> getElements() {
         return mElements;
     }
 
@@ -80,7 +80,7 @@ public class DanceSequence implements Parcelable {
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.SEQUENCES_NAME_COLUMN, getName());
         String elements = "";
-        List<DanceElement> danceElements = getmElements();
+        List<DanceElement> danceElements = getElements();
         for (DanceElement el : danceElements) {
             if (!elements.isEmpty())
                 elements += ",";

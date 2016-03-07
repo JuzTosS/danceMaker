@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,12 +19,34 @@ import com.juztoss.dancemaker.activities.MainActivity;
 import com.juztoss.dancemaker.model.DanceElement;
 import com.juztoss.dancemaker.model.DanceException;
 
+import java.util.ArrayList;
+
 /**
  * Created by Kirill on 2/27/2016.
  */
-public class AddNewElementFragment extends Fragment {
+public class ElementViewFragment extends Fragment {
 
-    private static final Integer[] LENGTHS = {2, 4, 8, 12, 16};
+    private static final ArrayList<Integer> LENGTHS = new ArrayList<Integer>() {{
+        add(2);
+        add(4);
+        add(8);
+        add(12);
+        add(16);
+    }};
+
+    private DanceElement mElement;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+
+        if (savedInstanceState == null)
+            savedInstanceState = getArguments();
+
+        if (savedInstanceState != null)
+            mElement = (DanceElement) savedInstanceState.get(DanceElement.ALIAS);
+
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,25 +61,25 @@ public class AddNewElementFragment extends Fragment {
         Spinner lengthSpinner = (Spinner) view.findViewById(R.id.element_length);
         lengthSpinner.setAdapter(adapter);
 
-        lengthSpinner.setPrompt("Title");
-        // выделяем элемент
-        lengthSpinner.setSelection(1);
-
-
-        lengthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
-        actionBar.setTitle("New element");
+
+        if (mElement != null) {
+            if (actionBar != null)
+                actionBar.setTitle("Element");
+
+            TextView nameField = (TextView) view.findViewById(R.id.element_name);
+            Spinner lengthField = (Spinner) view.findViewById(R.id.element_length);
+            nameField.setText(mElement.getName());
+            int spinnerIndex = LENGTHS.indexOf(mElement.getLength());
+            if (spinnerIndex <= 0) spinnerIndex = 1;
+            lengthField.setSelection(spinnerIndex, false);
+        } else {
+            if (actionBar != null)
+                actionBar.setTitle("New element");
+
+            lengthSpinner.setSelection(1);
+        }
 
         return view;
     }
@@ -77,11 +98,15 @@ public class AddNewElementFragment extends Fragment {
         MainActivity activity = (MainActivity) getActivity();
         try {
             String name = nameField.getText().toString();
-            if(name.length() <= 0)
+            if (name.length() <= 0)
                 throw new DanceException("Empty name!");
 
-            DanceElement newElement = new DanceElement(name, Integer.parseInt(lengthField.getSelectedItem().toString()));
-            newElement.save();
+            DanceElement element;
+            if (mElement == null)
+                element = new DanceElement(name, Integer.parseInt(lengthField.getSelectedItem().toString()));
+            else
+                element = new DanceElement(mElement.getId(), name, Integer.parseInt(lengthField.getSelectedItem().toString()));
+            element.save();
         } catch (Exception e) {
             Toast.makeText(getActivity(), "The element hasn't been saved!", Toast.LENGTH_SHORT).show();
         }
