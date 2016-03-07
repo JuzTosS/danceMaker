@@ -1,5 +1,6 @@
 package com.juztoss.dancemaker.fragments;
 
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -65,7 +66,7 @@ public class SequenceViewFragment extends ListFragment implements SequenceViewDe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        ((MainActivity) getActivity()).showAllSequences();
+        ((MainActivity) getActivity()).showAllSequences(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
         return false;
     }
 

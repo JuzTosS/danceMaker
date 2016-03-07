@@ -2,6 +2,7 @@ package com.juztoss.dancemaker.activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        showAllElements();
+        showAllElements(0);
     }
 
     @Override
@@ -69,13 +70,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void showFragment(Fragment fragment, Boolean showBackButton)
+    private void showFragment(Fragment fragment, Boolean showBackButton, int animation)
     {
         fragment.setHasOptionsMenu(true);
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
-                .commit();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setTransition(animation);
+
+        transaction.replace(R.id.container, fragment).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -85,14 +87,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mDrawerToggle.syncState();
     }
 
-    public void showAllElements() {
+    public void showAllElements(int animation) {
         Fragment fragment = new ElementsListFragment();
-        showFragment(fragment, false);
+        showFragment(fragment, false, animation);
     }
 
-    public void showAllSequences() {
+    public void showAllSequences(int animation) {
         Fragment fragment = new SequencesListFragment();
-        showFragment(fragment, false);
+        showFragment(fragment, false, animation);
     }
 
     public void showSequence(DanceSequence sequence) {
@@ -100,17 +102,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Bundle args = new Bundle();
         args.putParcelable(DanceSequence.ALIAS, sequence);
         fragment.setArguments(args);
-        showFragment(fragment, true);
+        showFragment(fragment, true, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
     }
 
     public void showAddNewElement() {
         Fragment fragment = new AddNewElementFragment();
-        showFragment(fragment, true);
+        showFragment(fragment, true, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
     }
 
     public void showAddNewSequence() {
         Fragment fragment = new AddNewSequenceFragment();
-        showFragment(fragment, true);
+        showFragment(fragment, true, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
     }
 
     @Override
@@ -126,10 +128,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         switch (id) {
             case R.id.element_list:
-                showAllElements();
+                showAllElements(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 break;
             case R.id.element_create_sequence:
-                showAllSequences();
+                showAllSequences(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 break;
         }
 

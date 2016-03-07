@@ -1,6 +1,7 @@
 package com.juztoss.dancemaker.fragments;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
@@ -85,7 +86,7 @@ public class AddNewElementFragment extends Fragment {
             Toast.makeText(getActivity(), "The element hasn't been saved!", Toast.LENGTH_SHORT).show();
         }
 
-        activity.showAllElements();
+        activity.showAllElements(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
         return false;
     }
 

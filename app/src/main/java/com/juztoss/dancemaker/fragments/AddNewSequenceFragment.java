@@ -1,6 +1,7 @@
 package com.juztoss.dancemaker.fragments;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
@@ -59,7 +60,7 @@ public class AddNewSequenceFragment extends Fragment {
             Toast.makeText(getActivity(), "The sequence hasn't been saved!", Toast.LENGTH_SHORT).show();
         }
 
-        activity.showAllSequences();
+        activity.showAllSequences(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
         return false;
     }
 }
