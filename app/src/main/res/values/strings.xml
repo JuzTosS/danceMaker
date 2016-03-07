@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">DanceMaker</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="menu_save_text">Save</string>
@@ -10,4 +9,5 @@
     <string name="delete">Remove</string>
     <string name="length">Length</string>
     <string name="name">Name</string>
+    <string name="length_with_number">Length %1$d</string>
 </resources>

@@ -4,19 +4,22 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.daimajia.swipe.SwipeLayout;
 import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.model.DanceSequence;
 
 import java.util.List;
 
-interface SequenceDeleteListener {
+interface SequenceListListener {
     void onDelete(DanceSequence Sequence);
+    void onClick(DanceSequence Sequence);
 }
 
 /**
@@ -26,7 +29,7 @@ public class DanceSequenceListAdapter extends BaseAdapter implements ListAdapter
 
     private List<DanceSequence> mDanceSequences;
     private Context context;
-    private SequenceDeleteListener mOnSequenceDeleteListener;
+    private SequenceListListener mOnSequenceListListener;
 
 
     public DanceSequenceListAdapter(Context context, List<DanceSequence> danceSequences) {
@@ -34,8 +37,8 @@ public class DanceSequenceListAdapter extends BaseAdapter implements ListAdapter
         this.context = context;
     }
 
-    public void setDeleteListener(SequenceDeleteListener onSequenceDeleteListener) {
-        mOnSequenceDeleteListener = onSequenceDeleteListener;
+    public void setListener(SequenceListListener onSequenceListListener) {
+        mOnSequenceListListener = onSequenceListListener;
     }
 
     @Override
@@ -68,17 +71,27 @@ public class DanceSequenceListAdapter extends BaseAdapter implements ListAdapter
 
         final DanceSequence seq = (DanceSequence) getItem(position);
         nameField.setText(seq.getName());
-        lengthField.setText("Length " + seq.getLength());
+        String original = view.getContext().getString(R.string.length_with_number);
+        lengthField.setText(String.format(original, seq.getLength()));
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mOnSequenceListListener != null)
+                    mOnSequenceListListener.onDelete(seq);
 
-                if (mOnSequenceDeleteListener != null) {
-                    mOnSequenceDeleteListener.onDelete(seq);
-                }
                 mDanceSequences.remove(position);
                 notifyDataSetChanged();
+            }
+        });
+
+        final SwipeLayout swipeLayout = (SwipeLayout)view.findViewById(R.id.swipe_list_element);
+        swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
+        swipeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnSequenceListListener != null && swipeLayout.getOpenStatus() == SwipeLayout.Status.Close)
+                    mOnSequenceListListener.onClick(seq);
             }
         });
 

@@ -1,6 +1,5 @@
 package com.juztoss.dancemaker.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,40 +11,41 @@ import android.widget.TextView;
 
 import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.model.DanceElement;
+import com.juztoss.dancemaker.model.DanceSequence;
 
 import java.util.List;
 
-interface ElementDeleteListener {
+interface SequenceViewDeleteListener {
     void onDelete(DanceElement element);
 }
 
 /**
  * Created by Kirill on 2/27/2016.
  */
-public class DanceElementListAdapter extends BaseAdapter implements ListAdapter {
+public class DanceSequenceViewListAdapter extends BaseAdapter implements ListAdapter {
 
-    private List<DanceElement> mDanceElements;
+    private DanceSequence mDanceSequence;
     private Context context;
-    private ElementDeleteListener mOnElementDeleteListener;
+    private SequenceViewDeleteListener mOnSequenceDeleteListener;
 
 
-    public DanceElementListAdapter(Context context, List<DanceElement> danceElements) {
-        mDanceElements = danceElements;
+    public DanceSequenceViewListAdapter(Context context, DanceSequence danceSequence) {
+        mDanceSequence = danceSequence;
         this.context = context;
     }
 
-    public void setDeleteListener(ElementDeleteListener onElementDeleteListener) {
-        mOnElementDeleteListener = onElementDeleteListener;
+    public void setDeleteListener(SequenceViewDeleteListener onSequenceDeleteListener) {
+        mOnSequenceDeleteListener = onSequenceDeleteListener;
     }
 
     @Override
     public int getCount() {
-        return mDanceElements.size();
+        return mDanceSequence.getmElements().size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mDanceElements.get(position);
+        return mDanceSequence.getmElements().get(position);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class DanceElementListAdapter extends BaseAdapter implements ListAdapter 
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.list_element, null);
+            view = inflater.inflate(R.layout.list_sequence, null);
         }
 
         TextView nameField = (TextView) view.findViewById(R.id.nameField);
@@ -68,17 +68,16 @@ public class DanceElementListAdapter extends BaseAdapter implements ListAdapter 
 
         final DanceElement el = (DanceElement) getItem(position);
         nameField.setText(el.getName());
-        String original = view.getContext().getString(R.string.length_with_number);
-        lengthField.setText(String.format(original, el.getLength()));
+        lengthField.setText("Length " + el.getLength());
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (mOnElementDeleteListener != null) {
-                    mOnElementDeleteListener.onDelete(el);
+                if (mOnSequenceDeleteListener != null) {
+                    mOnSequenceDeleteListener.onDelete(el);
                 }
-                mDanceElements.remove(position);
+                mDanceSequence.delete(el);
                 notifyDataSetChanged();
             }
         });

@@ -19,6 +19,7 @@ import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.fragments.AddNewElementFragment;
 import com.juztoss.dancemaker.fragments.AddNewSequenceFragment;
 import com.juztoss.dancemaker.fragments.ElementsListFragment;
+import com.juztoss.dancemaker.fragments.SequenceViewFragment;
 import com.juztoss.dancemaker.fragments.SequencesListFragment;
 import com.juztoss.dancemaker.model.DanceSequence;
 import com.juztoss.dancemaker.model.DanceSpace;
@@ -68,8 +69,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void showAllElements() {
-        Fragment fragment = new ElementsListFragment();
+    private void showFragment(Fragment fragment, Boolean showBackButton)
+    {
         fragment.setHasOptionsMenu(true);
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
@@ -78,47 +79,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        mDrawerToggle.syncState();
+        if(showBackButton)
+            mDrawerToggle.onDrawerOpened(null);
+        else
+            mDrawerToggle.syncState();
+    }
+
+    public void showAllElements() {
+        Fragment fragment = new ElementsListFragment();
+        showFragment(fragment, false);
     }
 
     public void showAllSequences() {
         Fragment fragment = new SequencesListFragment();
-        fragment.setHasOptionsMenu(true);
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
-                .commit();
+        showFragment(fragment, false);
+    }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        mDrawerToggle.syncState();
+    public void showSequence(DanceSequence sequence) {
+        Fragment fragment = new SequenceViewFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(DanceSequence.ALIAS, sequence);
+        fragment.setArguments(args);
+        showFragment(fragment, true);
     }
 
     public void showAddNewElement() {
         Fragment fragment = new AddNewElementFragment();
-        fragment.setHasOptionsMenu(true);
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
-                .commit();
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerToggle.onDrawerOpened(null);
-
-        drawer.closeDrawer(GravityCompat.START);
+        showFragment(fragment, true);
     }
 
     public void showAddNewSequence() {
         Fragment fragment = new AddNewSequenceFragment();
-        fragment.setHasOptionsMenu(true);
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, fragment)
-                .commit();
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerToggle.onDrawerOpened(null);
-        drawer.closeDrawer(GravityCompat.START);
+        showFragment(fragment, true);
     }
 
     @Override

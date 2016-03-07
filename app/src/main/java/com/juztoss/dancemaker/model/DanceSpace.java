@@ -85,8 +85,8 @@ public class DanceSpace {
 
     public void save(DanceElement element) throws DanceException {
         ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.ELEMENT_NAME_COLUMN, element.name());
-        values.put(DatabaseHelper.ELEMENT_LENGTH_COLUMN, element.length());
+        values.put(DatabaseHelper.ELEMENT_NAME_COLUMN, element.getName());
+        values.put(DatabaseHelper.ELEMENT_LENGTH_COLUMN, element.getLength());
 
         if (element.isNew()) {
             mDb.insert(DatabaseHelper.TABLE_ELEMENTS, DatabaseHelper.ELEMENT_NAME_COLUMN, values);
@@ -132,8 +132,8 @@ public class DanceSpace {
         if (sequence.isNew())
             throw new DanceException("Element doesn't exist");
 
-//        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
-//        db.delete(mDatabaseHelper.TABLE_ELEMENTS, mDatabaseHelper._ID + "= ?", new String[]{sequence.getId()});
+        mDb.delete(DatabaseHelper.TABLE_SEQUENCES, DatabaseHelper._ID + "= ?", new String[]{sequence.getId()});
+        updateLists();
     }
 
 
