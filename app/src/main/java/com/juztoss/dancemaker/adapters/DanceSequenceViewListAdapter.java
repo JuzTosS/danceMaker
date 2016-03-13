@@ -59,7 +59,8 @@ public class DanceSequenceViewListAdapter extends BaseAdapter implements ListAda
 
         final DanceElement el = (DanceElement) getItem(position);
         nameField.setText(el.getName());
-        lengthField.setText("Length " + el.getLength());
+        String original = view.getContext().getString(R.string.length_with_number);
+        lengthField.setText(String.format(original, el.getLength()));
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override

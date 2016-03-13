@@ -55,25 +55,13 @@ public class SequenceViewFragment extends ListFragment implements DanceSequenceV
         length.setText(String.format(original, mSequence.getLength()));
 
 
-//        DragListView interceptor = (DragListView)rootView.findViewById(android.R.id.list);
-//        interceptor.setDragListener(new DragListView.DragListener() {
-//            @Override
-//            public void drag(int from, int to) {
-//
-//            }
-//        });
-
-//        interceptor.setDropListener(new DragListView.DropListener() {
-//            @Override
-//            public void drop(int from, int to) {
-//                DanceElement el = mSequence.getElements().remove(from);
-//                mSequence.getElements().add(to, el);
-//                mSequence.save();
-//                mAdapter.notifyDataSetChanged();
-//                getListView().invalidateViews();
-//            }
-//        });
-
+        DragListView list = (DragListView)rootView.findViewById(android.R.id.list);
+        list.setDragListListener(new DragListView.DragListListener() {
+            @Override
+            public void onDrop() {
+                mSequence.save();
+            }
+        });
 
 
         return rootView;

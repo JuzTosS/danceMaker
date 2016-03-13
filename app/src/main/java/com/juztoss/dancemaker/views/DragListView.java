@@ -30,7 +30,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -38,6 +37,7 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.adapters.DanceSequenceViewListAdapter;
 
 public class DragListView extends ListView {
@@ -73,6 +73,8 @@ public class DragListView extends ListView {
     private int mScrollState = OnScrollListener.SCROLL_STATE_IDLE;
 
     private DragListListener mDragListListener;
+
+    private static Rect mRectHandle;
 
     public DragListView(Context context) {
         super(context);
@@ -172,6 +174,20 @@ public class DragListView extends ListView {
 
                 mDownX = (int) event.getX();
                 mDownY = (int) event.getY();
+
+                if (mRectHandle == null) {
+                    View anyItem = getChildAt(0);
+                    if (anyItem != null) {
+                        View dragHandle = findViewById(R.id.drag_handle);
+                        mRectHandle = new Rect();
+                        dragHandle.getHitRect(mRectHandle);
+                    }
+                }
+
+                if (mRectHandle == null || mDownX > mRectHandle.right)
+                    return super.onTouchEvent(event);
+
+
                 mActivePointerId = event.getPointerId(0);
 
                 mTotalOffset = 0;
@@ -340,6 +356,9 @@ public class DragListView extends ListView {
                 }
             });
             hoverViewAnimator.start();
+
+            mDragListListener.onDrop();
+
         } else {
             touchEventsCancelled();
         }
@@ -471,6 +490,6 @@ public class DragListView extends ListView {
     };
 
     public interface DragListListener {
-        void onAfterDrop();
+        void onDrop();
     }
 }

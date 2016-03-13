@@ -73,7 +73,7 @@ public class DanceElement implements Parcelable {
         if (isNew())
             throw new DanceException("Element doesn't exist");
 
-        DatabaseHelper.db().delete(DatabaseHelper.TABLE_SEQUENCES, DatabaseHelper._ID + "= ?", new String[]{Integer.toString(getId())});
+        DatabaseHelper.db().delete(DatabaseHelper.TABLE_ELEMENTS, DatabaseHelper._ID + "= ?", new String[]{Integer.toString(getId())});
     }
 
     public static final Parcelable.Creator<DanceElement> CREATOR
