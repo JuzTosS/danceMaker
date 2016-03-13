@@ -94,8 +94,8 @@ public class DanceSequenceViewListAdapter extends BaseAdapter implements ListAda
         return mDanceSequence.getElements().get(position).getId();
     }
 
-    @Override
-    public boolean hasStableIds() {
-        return true;
-    }
+//    @Override
+//    public boolean hasStableIds() {
+//        return true;
+//    }
 }

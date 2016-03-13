@@ -26,17 +26,15 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
@@ -97,8 +95,7 @@ public class DragListView extends ListView {
         mSmoothScrollAmountAtEdge = (int) (SMOOTH_SCROLL_AMOUNT_AT_EDGE / metrics.density);
     }
 
-    public void setDragListListener(DragListListener listener)
-    {
+    public void setDragListListener(DragListListener listener) {
         mDragListListener = listener;
     }
 
@@ -183,16 +180,13 @@ public class DragListView extends ListView {
                 int itemNum = position - getFirstVisiblePosition();
 
                 View selectedView = getChildAt(itemNum);
-                if(selectedView == null)
-                {
+                if (selectedView == null) {
                     mCellIsMobile = false;
                     return true;
                 }
                 mMobileItemId = getAdapter().getItemId(position);
-                selectedView.setVisibility(VISIBLE);
                 mHoverCell = getAndAddHoverView(selectedView);
                 selectedView.setVisibility(INVISIBLE);
-
                 mCellIsMobile = true;
 
                 updateNeighborViewsForID(mMobileItemId);
@@ -259,11 +253,6 @@ public class DragListView extends ListView {
             final long switchItemID = isBelow ? mBelowItemId : mAboveItemId;
             View switchView = isBelow ? belowView : aboveView;
             final int originalItem = getPositionForView(mobileView);
-
-            if (switchView == null) {
-                updateNeighborViewsForID(mMobileItemId);
-                return;
-            }
 
             DanceSequenceViewListAdapter adapter = ((DanceSequenceViewListAdapter) getAdapter());
             adapter.swapElements(originalItem, getPositionForView(switchView));
@@ -339,14 +328,13 @@ public class DragListView extends ListView {
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    if(mCellIsMobile)
-                        return;
-
-                    mAboveItemId = INVALID_ID;
-                    mMobileItemId = INVALID_ID;
-                    mBelowItemId = INVALID_ID;
-                    mobileView.setVisibility(VISIBLE);
-                    mHoverCell = null;
+                    if (!mCellIsMobile) {
+                        mAboveItemId = INVALID_ID;
+                        mMobileItemId = INVALID_ID;
+                        mBelowItemId = INVALID_ID;
+                        mobileView.setVisibility(VISIBLE);
+                        mHoverCell = null;
+                    }
                     setEnabled(true);
                     invalidate();
                 }
@@ -482,8 +470,7 @@ public class DragListView extends ListView {
         }
     };
 
-    public interface DragListListener
-    {
+    public interface DragListListener {
         void onAfterDrop();
     }
 }
