@@ -18,6 +18,8 @@ import com.juztoss.dancemaker.model.DanceSequence;
  */
 public class DanceSequenceViewListAdapter extends BaseAdapter implements ListAdapter {
 
+    final int INVALID_ID = -1;
+
     private DanceSequence mDanceSequence;
     private Context context;
     private SequenceViewDeleteListener mOnSequenceDeleteListener;
@@ -40,11 +42,6 @@ public class DanceSequenceViewListAdapter extends BaseAdapter implements ListAda
     @Override
     public Object getItem(int position) {
         return mDanceSequence.getElements().get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
     }
 
     @Override
@@ -79,7 +76,26 @@ public class DanceSequenceViewListAdapter extends BaseAdapter implements ListAda
         return view;
     }
 
+    public void swapElements(int first, int second) {
+        DanceElement temp = mDanceSequence.getElements().get(first);
+        mDanceSequence.getElements().set(first, mDanceSequence.getElements().get(second));
+        mDanceSequence.getElements().set(second, temp);
+    }
+
     public interface SequenceViewDeleteListener {
         void onDelete(DanceElement element);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        if (position < 0 || position >= mDanceSequence.getElements().size()) {
+            return INVALID_ID;
+        }
+        return mDanceSequence.getElements().get(position).getId();
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return true;
     }
 }

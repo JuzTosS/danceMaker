@@ -13,12 +13,10 @@ import android.widget.TextView;
 
 import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.activities.MainActivity;
-import com.juztoss.dancemaker.views.TouchInterceptor;
+import com.juztoss.dancemaker.views.DragListView;
 import com.juztoss.dancemaker.adapters.DanceSequenceViewListAdapter;
 import com.juztoss.dancemaker.model.DanceElement;
 import com.juztoss.dancemaker.model.DanceSequence;
-
-import java.util.Collections;
 
 /**
  * Created by Kirill on 2/27/2016.
@@ -57,24 +55,24 @@ public class SequenceViewFragment extends ListFragment implements DanceSequenceV
         length.setText(String.format(original, mSequence.getLength()));
 
 
-        TouchInterceptor interceptor = (TouchInterceptor)rootView.findViewById(android.R.id.list);
-        interceptor.setDragListener(new TouchInterceptor.DragListener() {
-            @Override
-            public void drag(int from, int to) {
+//        DragListView interceptor = (DragListView)rootView.findViewById(android.R.id.list);
+//        interceptor.setDragListener(new DragListView.DragListener() {
+//            @Override
+//            public void drag(int from, int to) {
+//
+//            }
+//        });
 
-            }
-        });
-
-        interceptor.setDropListener(new TouchInterceptor.DropListener() {
-            @Override
-            public void drop(int from, int to) {
-                DanceElement el = mSequence.getElements().remove(from);
-                mSequence.getElements().add(to, el);
-                mSequence.save();
-                mAdapter.notifyDataSetChanged();
-                getListView().invalidateViews();
-            }
-        });
+//        interceptor.setDropListener(new DragListView.DropListener() {
+//            @Override
+//            public void drop(int from, int to) {
+//                DanceElement el = mSequence.getElements().remove(from);
+//                mSequence.getElements().add(to, el);
+//                mSequence.save();
+//                mAdapter.notifyDataSetChanged();
+//                getListView().invalidateViews();
+//            }
+//        });
 
 
 

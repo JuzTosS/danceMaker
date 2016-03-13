@@ -14,17 +14,17 @@ import java.util.List;
 public class DanceSequence implements Parcelable {
 
     public static final String ALIAS = "DanceSequence";
-    private String mId;
+    private int mId;
     private String mName;
     private List<DanceElement> mElements;
     private boolean mIsNew = false;
 
     public DanceSequence(String name, List<DanceElement> elements) {
-        this("", name, elements);
+        this(0, name, elements);
         mIsNew = true;
     }
 
-    public DanceSequence(String id, String name, List<DanceElement> elements) {
+    public DanceSequence(int id, String name, List<DanceElement> elements) {
         mElements = elements;
         mName = name;
         mId = id;
@@ -34,7 +34,7 @@ public class DanceSequence implements Parcelable {
         return mIsNew;
     }
 
-    public String getId() {
+    public int getId() {
         return mId;
     }
 
@@ -67,7 +67,7 @@ public class DanceSequence implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeByte((byte) (mIsNew ? 1 : 0));
-        dest.writeString(mId);
+        dest.writeInt(mId);
         dest.writeString(mName);
         dest.writeArray(mElements.toArray());
     }
@@ -93,7 +93,7 @@ public class DanceSequence implements Parcelable {
         if (isNew()) {
             DatabaseHelper.db().insert(DatabaseHelper.TABLE_SEQUENCES, DatabaseHelper.SEQUENCES_NAME_COLUMN, values);
         } else {
-            int result = DatabaseHelper.db().update(DatabaseHelper.TABLE_SEQUENCES, values, DatabaseHelper._ID + "= ?", new String[]{getId()});
+            int result = DatabaseHelper.db().update(DatabaseHelper.TABLE_SEQUENCES, values, DatabaseHelper._ID + "= ?", new String[]{Integer.toString(getId())});
             Log.d("DEBUG", "rows affected:" + result);
         }
     }
@@ -102,7 +102,7 @@ public class DanceSequence implements Parcelable {
         if (isNew())
             throw new DanceException("Element doesn't exist");
 
-        DatabaseHelper.db().delete(DatabaseHelper.TABLE_SEQUENCES, DatabaseHelper._ID + "= ?", new String[]{getId()});
+        DatabaseHelper.db().delete(DatabaseHelper.TABLE_SEQUENCES, DatabaseHelper._ID + "= ?", new String[]{Integer.toString(getId())});
     }
 
     public static final Creator<DanceSequence> CREATOR
@@ -110,7 +110,7 @@ public class DanceSequence implements Parcelable {
         @Override
         public DanceSequence createFromParcel(Parcel source) {
             Boolean isNew = source.readByte() != 0;
-            String id = source.readString();
+            int id = source.readInt();
             DanceElement[] elements = (DanceElement[]) source.readArray(DanceElement.class.getClassLoader());
             if (isNew) {
 

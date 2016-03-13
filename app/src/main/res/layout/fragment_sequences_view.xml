@@ -65,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.juztoss.dancemaker.views.TouchInterceptor
+            <com.juztoss.dancemaker.views.DragListView
                 android:id="@android:id/list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

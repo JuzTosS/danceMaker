@@ -11,7 +11,7 @@ public class DanceElement implements Parcelable {
 
     public static final String ALIAS = "DanceElement";
     private String mName;
-    private String mId;
+    private int mId;
     private int mLength;
     private boolean mIsNew = false;
 
@@ -21,7 +21,7 @@ public class DanceElement implements Parcelable {
         mLength = length;
     }
 
-    public DanceElement(String id, String name, int length) {
+    public DanceElement(int id, String name, int length) {
         mId = id;
         mName = name;
         mLength = length;
@@ -39,7 +39,7 @@ public class DanceElement implements Parcelable {
         return mLength;
     }
 
-    public String getId() {
+    public int getId() {
         return mId;
     }
 
@@ -52,7 +52,7 @@ public class DanceElement implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeByte((byte) (mIsNew ? 1 : 0));
-        dest.writeString(mId);
+        dest.writeInt(mId);
         dest.writeString(mName);
         dest.writeInt(mLength);
     }
@@ -65,7 +65,7 @@ public class DanceElement implements Parcelable {
         if (isNew()) {
             DatabaseHelper.db().insert(DatabaseHelper.TABLE_ELEMENTS, DatabaseHelper.ELEMENT_NAME_COLUMN, values);
         } else {
-            DatabaseHelper.db().update(DatabaseHelper.TABLE_ELEMENTS, values, DatabaseHelper._ID + "= ?", new String[]{getId()});
+            DatabaseHelper.db().update(DatabaseHelper.TABLE_ELEMENTS, values, DatabaseHelper._ID + "= ?", new String[]{Integer.toString(getId())});
         }
     }
 
@@ -73,7 +73,7 @@ public class DanceElement implements Parcelable {
         if (isNew())
             throw new DanceException("Element doesn't exist");
 
-        DatabaseHelper.db().delete(DatabaseHelper.TABLE_SEQUENCES, DatabaseHelper._ID + "= ?", new String[]{getId()});
+        DatabaseHelper.db().delete(DatabaseHelper.TABLE_SEQUENCES, DatabaseHelper._ID + "= ?", new String[]{Integer.toString(getId())});
     }
 
     public static final Parcelable.Creator<DanceElement> CREATOR
@@ -82,14 +82,14 @@ public class DanceElement implements Parcelable {
         public DanceElement createFromParcel(Parcel source) {
             Boolean isNew = source.readByte() != 0;
             if (isNew) {
-                source.readString();//Skipping id
+                source.readInt();//Skipping id
                 return new DanceElement(
                         source.readString(),
                         source.readInt()
                 );
             } else {
                 return new DanceElement(
-                        source.readString(),
+                        source.readInt(),
                         source.readString(),
                         source.readInt()
                 );
