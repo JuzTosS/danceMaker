@@ -13,6 +13,10 @@ import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.model.DanceElement;
 import com.juztoss.dancemaker.model.DanceSequence;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by Kirill on 2/27/2016.
  */
@@ -20,6 +24,7 @@ public class DanceSequenceViewListAdapter extends BaseAdapter implements ListAda
 
     final int INVALID_ID = -1;
 
+    private List<DanceElement> mTempElementsIds;
     private DanceSequence mDanceSequence;
     private Context context;
     private SequenceViewDeleteListener mOnSequenceDeleteListener;
@@ -27,6 +32,9 @@ public class DanceSequenceViewListAdapter extends BaseAdapter implements ListAda
 
     public DanceSequenceViewListAdapter(Context context, DanceSequence danceSequence) {
         mDanceSequence = danceSequence;
+        mTempElementsIds = new ArrayList<>();
+        mTempElementsIds.addAll(mDanceSequence.getElements());
+
         this.context = context;
     }
 
@@ -92,7 +100,8 @@ public class DanceSequenceViewListAdapter extends BaseAdapter implements ListAda
         if (position < 0 || position >= mDanceSequence.getElements().size()) {
             return INVALID_ID;
         }
-        return mDanceSequence.getElements().get(position).getId();
+        DanceElement el = mDanceSequence.getElements().get(position);
+        return  mTempElementsIds.indexOf(el);
     }
 
 //    @Override

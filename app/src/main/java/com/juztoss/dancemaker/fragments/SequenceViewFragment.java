@@ -3,6 +3,7 @@ package com.juztoss.dancemaker.fragments;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -43,6 +44,15 @@ public class SequenceViewFragment extends ListFragment implements DanceSequenceV
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_sequences_view, container, false);
 
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        final MainActivity activity = (MainActivity) getActivity();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.showAddNewElementToSequence(mSequence);
+            }
+        });
+
         ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
         actionBar.setTitle("");
 
@@ -69,6 +79,7 @@ public class SequenceViewFragment extends ListFragment implements DanceSequenceV
 
     @Override
     public void onDelete(DanceElement element) {
+        //TODO: remove onDelete, action is implemented in the adapter
 //        try {
 //            ((MainActivity) getActivity()).getDanceSpace().delete(element);
 //        } catch (DanceException e) {

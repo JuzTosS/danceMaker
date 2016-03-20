@@ -17,6 +17,7 @@ import android.view.View;
 import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.fragments.ElementViewFragment;
 import com.juztoss.dancemaker.fragments.AddNewSequenceFragment;
+import com.juztoss.dancemaker.fragments.ElementsListForSeqFragment;
 import com.juztoss.dancemaker.fragments.ElementsListFragment;
 import com.juztoss.dancemaker.fragments.SequenceViewFragment;
 import com.juztoss.dancemaker.fragments.SequencesListFragment;
@@ -143,5 +144,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         return false;
+    }
+
+    public void showAddNewElementToSequence(DanceSequence sequence) {
+        Fragment fragment = new ElementsListForSeqFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(DanceSequence.ALIAS, sequence);
+        fragment.setArguments(args);
+        showFragment(fragment, false, FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
     }
 }
