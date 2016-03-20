@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.activities.MainActivity;
 import com.juztoss.dancemaker.model.DanceElement;
 import com.juztoss.dancemaker.model.DanceException;
+import com.juztoss.dancemaker.model.InOutMatrix;
 
 import java.util.ArrayList;
 
@@ -74,6 +76,17 @@ public class ElementViewFragment extends Fragment {
             int spinnerIndex = LENGTHS.indexOf(mElement.getLength());
             if (spinnerIndex <= 0) spinnerIndex = 1;
             lengthField.setSelection(spinnerIndex, false);
+
+            InOutMatrix matrix = mElement.getInOutMatrix();
+
+            ((CheckBox)view.findViewById(R.id.checkBoxInHello)).setChecked(matrix.inHello);
+            ((CheckBox)view.findViewById(R.id.checkBoxInBoth)).setChecked(matrix.inBoth);
+            ((CheckBox)view.findViewById(R.id.checkBoxInLeft)).setChecked(matrix.inLeft);
+
+            ((CheckBox)view.findViewById(R.id.checkBoxOutHello)).setChecked(matrix.outHello);
+            ((CheckBox)view.findViewById(R.id.checkBoxOutBoth)).setChecked(matrix.outBoth);
+            ((CheckBox)view.findViewById(R.id.checkBoxOutLeft)).setChecked(matrix.outLeft);
+
         } else {
             if (actionBar != null)
                 actionBar.setTitle("New element");
@@ -101,12 +114,23 @@ public class ElementViewFragment extends Fragment {
             if (name.length() <= 0)
                 throw new DanceException("Empty name!");
 
+            InOutMatrix matrix = new InOutMatrix();
+
+            matrix.inHello = ((CheckBox)getActivity().findViewById(R.id.checkBoxInHello)).isChecked();
+            matrix.inBoth = ((CheckBox)getActivity().findViewById(R.id.checkBoxInBoth)).isChecked();
+            matrix.inLeft = ((CheckBox)getActivity().findViewById(R.id.checkBoxInLeft)).isChecked();
+
+            matrix.outHello = ((CheckBox)getActivity().findViewById(R.id.checkBoxOutHello)).isChecked();
+            matrix.outBoth = ((CheckBox)getActivity().findViewById(R.id.checkBoxOutBoth)).isChecked();
+            matrix.outLeft = ((CheckBox)getActivity().findViewById(R.id.checkBoxOutLeft)).isChecked();
+
             DanceElement element;
             if (mElement == null)
-                element = new DanceElement(name, Integer.parseInt(lengthField.getSelectedItem().toString()));
+                element = new DanceElement(name, Integer.parseInt(lengthField.getSelectedItem().toString()), matrix);
             else
-                element = new DanceElement(mElement.getId(), name, Integer.parseInt(lengthField.getSelectedItem().toString()));
-            element.save();
+                element = new DanceElement(mElement.getId(), name, Integer.parseInt(lengthField.getSelectedItem().toString()), matrix);
+
+            activity.getDanceSpace().save(element);
         } catch (Exception e) {
             Toast.makeText(getActivity(), "The element hasn't been saved!", Toast.LENGTH_SHORT).show();
         }

@@ -53,8 +53,8 @@ public class ElementsListForSeqFragment extends ListFragment implements DanceEle
     @Override
     public void onClick(DanceElement element) {
         mSequence.getElements().add(element);
-        mSequence.save();
         MainActivity activity = (MainActivity) getActivity();
+        activity.getDanceSpace().save(mSequence);
         activity.showSequence(mSequence);
     }
 

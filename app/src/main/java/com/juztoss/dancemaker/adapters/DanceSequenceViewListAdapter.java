@@ -10,6 +10,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.juztoss.dancemaker.R;
+import com.juztoss.dancemaker.activities.MainActivity;
 import com.juztoss.dancemaker.model.DanceElement;
 import com.juztoss.dancemaker.model.DanceSequence;
 
@@ -70,14 +71,16 @@ public class DanceSequenceViewListAdapter extends BaseAdapter implements ListAda
         String original = view.getContext().getString(R.string.length_with_number);
         lengthField.setText(String.format(original, el.getLength()));
 
+        final MainActivity activity = (MainActivity) view.getContext();
+
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (mOnSequenceDeleteListener != null) {
                     mOnSequenceDeleteListener.onDelete(el);
                 }
                 mDanceSequence.delete(el);
+                activity.getDanceSpace().save(mDanceSequence);
                 notifyDataSetChanged();
             }
         });

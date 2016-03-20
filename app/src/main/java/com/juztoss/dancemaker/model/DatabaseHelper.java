@@ -16,21 +16,23 @@ class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns{
     // имя базы данных
     private static final String DATABASE_NAME = "mydatabase.db";
     // версия базы данных
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     public static final String TABLE_ELEMENTS = "elements";
     public static final String TABLE_SEQUENCES = "sequences";
 
     public static final String ELEMENT_NAME_COLUMN = "name";
     public static final String ELEMENT_LENGTH_COLUMN = "length";
+    public static final String ELEMENT_INOOUTMATRIX_COLUMN = "inout";
 
     public static final String SEQUENCES_NAME_COLUMN = "name";
     public static final String SEQUENCES_ELEMENTS_COLUMN = "elements";
 
     private static final String CREATE_ELEMENTS_TABLE = "create table "
-            + TABLE_ELEMENTS + " (" + BaseColumns._ID
-            + " integer primary key autoincrement, " + ELEMENT_NAME_COLUMN
-            + " text not null, " + ELEMENT_LENGTH_COLUMN + " integer); ";
+            + TABLE_ELEMENTS + " (" + BaseColumns._ID + " integer primary key autoincrement, "
+            + ELEMENT_NAME_COLUMN + " text not null, "
+            + ELEMENT_INOOUTMATRIX_COLUMN + " integer default 0"
+            + ELEMENT_LENGTH_COLUMN + " integer); ";
 
     private static final String CREATE_SEQUENCES_TABLE = "create table "
             + TABLE_SEQUENCES + " (" + BaseColumns._ID
@@ -56,9 +58,16 @@ class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns{
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i("SQLite", "Updating from " + oldVersion + " to " + newVersion);
 
-        db.execSQL("DROP TABLE IF EXISTS '" + TABLE_ELEMENTS + "';");
-        db.execSQL("DROP TABLE IF EXISTS '" + TABLE_SEQUENCES + "';");
-        onCreate(db);
+        if(oldVersion == 2 && newVersion == 3)
+        {
+            db.execSQL("ALTER TABLE " + TABLE_ELEMENTS + " ADD COLUMN " + ELEMENT_INOOUTMATRIX_COLUMN + " integer default 0");
+        }
+        else
+        {
+            db.execSQL("DROP TABLE IF EXISTS '" + TABLE_ELEMENTS + "';");
+            db.execSQL("DROP TABLE IF EXISTS '" + TABLE_SEQUENCES + "';");
+            onCreate(db);
+        }
     }
 
     public static SQLiteDatabase db()

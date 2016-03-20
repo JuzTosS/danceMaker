@@ -5,44 +5,43 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:baselineAligned="false">
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/name"
-            android:id="@+id/textView"
-            android:layout_gravity="center_vertical"
-            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp" />
+            android:text="@string/name"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText
             android:id="@+id/element_name"
             android:layout_width="270dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/transparent_edit_text"
             android:ems="10"
             android:inputType="text"
             android:lines="1"
-            android:linksClickable="false"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/transparent_edit_text"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true" />
+            android:linksClickable="false" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/lighter_gray"/>
+        android:background="@color/lighter_gray" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -50,29 +49,29 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/length"
-            android:id="@+id/textView3"
-            android:layout_gravity="center_vertical"
-            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp" />
+            android:text="@string/length"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Spinner
+            android:id="@+id/element_length"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:id="@+id/element_length"
+            android:layout_alignParentTop="false"
+            android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="46dp"
             android:layout_marginStart="10dp"
-            android:layout_alignParentTop="false"
             android:layout_toEndOf="@+id/textView3"
-            android:layout_toRightOf="@+id/textView3"
-            android:layout_centerVertical="true" />
+            android:layout_toRightOf="@+id/textView3" />
 
     </RelativeLayout>
 
@@ -80,5 +79,103 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/lighter_gray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="-10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/element_in"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_marginLeft="5dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/checkBoxInHello"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/element_hello_position" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxInLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/element_left_hand" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxInBoth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/element_both_hands" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/element_out"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_marginLeft="5dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/checkBoxOutHello"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/element_hello_position" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxOutLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/element_left_hand" />
+
+                <CheckBox
+                    android:id="@+id/checkBoxOutBoth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/element_both_hands" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/lighter_gray" />
+
 
 </LinearLayout>

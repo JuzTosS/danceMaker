@@ -54,7 +54,7 @@ public class AddNewSequenceFragment extends Fragment {
 
             DanceSpace space = activity.getDanceSpace();
             DanceSequence sequence = DanceSequence.generateNew(name, Integer.parseInt(lengthField.getText().toString()),space.getAllElements());
-            sequence.save();
+            activity.getDanceSpace().save(sequence);
 
         } catch (Exception e) {
             Toast.makeText(getActivity(), "The sequence hasn't been saved!", Toast.LENGTH_SHORT).show();

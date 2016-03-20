@@ -81,28 +81,6 @@ public class DanceSequence implements Parcelable {
 
     public void delete(DanceElement element) {
         mElements.remove(element);
-        save();
-    }
-
-    public void save() {
-        ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.SEQUENCES_NAME_COLUMN, getName());
-        String elements = "";
-        List<DanceElement> danceElements = getElements();
-        for (DanceElement el : danceElements) {
-            if (!elements.isEmpty())
-                elements += ",";
-
-            elements += el.getId();
-        }
-        values.put(DatabaseHelper.SEQUENCES_ELEMENTS_COLUMN, elements);
-
-        if (isNew()) {
-            DatabaseHelper.db().insert(DatabaseHelper.TABLE_SEQUENCES, DatabaseHelper.SEQUENCES_NAME_COLUMN, values);
-        } else {
-            int result = DatabaseHelper.db().update(DatabaseHelper.TABLE_SEQUENCES, values, DatabaseHelper._ID + "= ?", new String[]{Integer.toString(getId())});
-            Log.d("DEBUG", "rows affected:" + result);
-        }
     }
 
     public void delete() throws DanceException {

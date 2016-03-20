@@ -75,7 +75,7 @@ public class SequenceViewFragment extends ListFragment implements DanceSequenceV
         list.setDragListListener(new DragListView.DragListListener() {
             @Override
             public void onDrop() {
-                mSequence.save();
+                activity.getDanceSpace().save(mSequence);
             }
         });
 
