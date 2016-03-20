@@ -8,24 +8,31 @@ import android.os.Parcelable;
  */
 public class DanceElement implements Parcelable {
 
+    public static int IN_HELLO = 1;
+    public static int IN_LEFT = 2;
+    public static int IN_BOTH = 4;
+    public static int OUT_HELLO = 8;
+    public static int OUT_LEFT = 16;
+    public static int OUT_BOTH = 32;
+
     public static final String ALIAS = "DanceElement";
     private String mName;
     private int mId;
     private int mLength;
     private boolean mIsNew = false;
 
-    private InOutMatrix mInOutMatrix;
+    private int mInOut;
 
-    public DanceElement(String name, int length, InOutMatrix matrix) {
-        this(0, name, length, matrix);
+    public DanceElement(String name, int length, int inOut) {
+        this(0, name, length, inOut);
         mIsNew = true;
     }
 
-    public DanceElement(int id, String name, int length, InOutMatrix matrix) {
+    public DanceElement(int id, String name, int length, int inOut) {
         mId = id;
         mName = name;
         mLength = length;
-        mInOutMatrix = matrix;
+        mInOut = inOut;
     }
 
     public boolean isNew() {
@@ -56,7 +63,7 @@ public class DanceElement implements Parcelable {
         dest.writeInt(mId);
         dest.writeString(mName);
         dest.writeInt(mLength);
-        dest.writeParcelable(mInOutMatrix, flags);
+        dest.writeInt(mInOut);
     }
 
     public void delete() throws DanceException {
@@ -76,14 +83,14 @@ public class DanceElement implements Parcelable {
                 return new DanceElement(
                         source.readString(),
                         source.readInt(),
-                        (InOutMatrix) source.readParcelable(InOutMatrix.class.getClassLoader())
+                        source.readInt()
                 );
             } else {
                 return new DanceElement(
                         source.readInt(),
                         source.readString(),
                         source.readInt(),
-                        (InOutMatrix) source.readParcelable(InOutMatrix.class.getClassLoader())
+                        source.readInt()
                 );
             }
         }
@@ -94,11 +101,15 @@ public class DanceElement implements Parcelable {
         }
     };
 
-    public InOutMatrix getInOutMatrix() {
-        return mInOutMatrix;
+    public int getInOut() {
+        return mInOut;
     }
 
-    public void setInOutMatrix(InOutMatrix inOutMatrix) {
-        this.mInOutMatrix = inOutMatrix;
+    public int getIn() {
+        return mInOut & (IN_LEFT | IN_BOTH | IN_HELLO);
+    }
+
+    public int getOut() {
+        return mInOut & (OUT_LEFT | OUT_BOTH | OUT_HELLO);
     }
 }

@@ -19,7 +19,6 @@ import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.activities.MainActivity;
 import com.juztoss.dancemaker.model.DanceElement;
 import com.juztoss.dancemaker.model.DanceException;
-import com.juztoss.dancemaker.model.InOutMatrix;
 
 import java.util.ArrayList;
 
@@ -77,15 +76,15 @@ public class ElementViewFragment extends Fragment {
             if (spinnerIndex <= 0) spinnerIndex = 1;
             lengthField.setSelection(spinnerIndex, false);
 
-            InOutMatrix matrix = mElement.getInOutMatrix();
+            int matrix = mElement.getInOut();
 
-            ((CheckBox)view.findViewById(R.id.checkBoxInHello)).setChecked(matrix.inHello);
-            ((CheckBox)view.findViewById(R.id.checkBoxInBoth)).setChecked(matrix.inBoth);
-            ((CheckBox)view.findViewById(R.id.checkBoxInLeft)).setChecked(matrix.inLeft);
+            ((CheckBox)view.findViewById(R.id.checkBoxInHello)).setChecked((matrix & DanceElement.IN_HELLO) > 0);
+            ((CheckBox)view.findViewById(R.id.checkBoxInBoth)).setChecked((matrix & DanceElement.IN_BOTH) > 0);
+            ((CheckBox)view.findViewById(R.id.checkBoxInLeft)).setChecked((matrix & DanceElement.IN_LEFT) > 0);
 
-            ((CheckBox)view.findViewById(R.id.checkBoxOutHello)).setChecked(matrix.outHello);
-            ((CheckBox)view.findViewById(R.id.checkBoxOutBoth)).setChecked(matrix.outBoth);
-            ((CheckBox)view.findViewById(R.id.checkBoxOutLeft)).setChecked(matrix.outLeft);
+            ((CheckBox)view.findViewById(R.id.checkBoxOutHello)).setChecked((matrix & DanceElement.OUT_HELLO) > 0);
+            ((CheckBox)view.findViewById(R.id.checkBoxOutBoth)).setChecked((matrix & DanceElement.OUT_BOTH) > 0);
+            ((CheckBox)view.findViewById(R.id.checkBoxOutLeft)).setChecked((matrix & DanceElement.OUT_LEFT) > 0);
 
         } else {
             if (actionBar != null)
@@ -114,15 +113,15 @@ public class ElementViewFragment extends Fragment {
             if (name.length() <= 0)
                 throw new DanceException("Empty name!");
 
-            InOutMatrix matrix = new InOutMatrix();
+            int matrix = 0;
 
-            matrix.inHello = ((CheckBox)getActivity().findViewById(R.id.checkBoxInHello)).isChecked();
-            matrix.inBoth = ((CheckBox)getActivity().findViewById(R.id.checkBoxInBoth)).isChecked();
-            matrix.inLeft = ((CheckBox)getActivity().findViewById(R.id.checkBoxInLeft)).isChecked();
+            matrix = ((CheckBox)getActivity().findViewById(R.id.checkBoxInHello)).isChecked() ? (matrix | DanceElement.IN_HELLO) : matrix;
+            matrix = ((CheckBox)getActivity().findViewById(R.id.checkBoxInBoth)).isChecked() ? (matrix | DanceElement.IN_BOTH) : matrix;
+            matrix = ((CheckBox)getActivity().findViewById(R.id.checkBoxInLeft)).isChecked() ? (matrix | DanceElement.IN_LEFT) : matrix;
 
-            matrix.outHello = ((CheckBox)getActivity().findViewById(R.id.checkBoxOutHello)).isChecked();
-            matrix.outBoth = ((CheckBox)getActivity().findViewById(R.id.checkBoxOutBoth)).isChecked();
-            matrix.outLeft = ((CheckBox)getActivity().findViewById(R.id.checkBoxOutLeft)).isChecked();
+            matrix = ((CheckBox)getActivity().findViewById(R.id.checkBoxOutHello)).isChecked() ? (matrix | DanceElement.OUT_HELLO) : matrix;
+            matrix = ((CheckBox)getActivity().findViewById(R.id.checkBoxOutBoth)).isChecked() ? (matrix | DanceElement.OUT_BOTH) : matrix;
+            matrix = ((CheckBox)getActivity().findViewById(R.id.checkBoxOutLeft)).isChecked() ? (matrix | DanceElement.OUT_LEFT) : matrix;
 
             DanceElement element;
             if (mElement == null)

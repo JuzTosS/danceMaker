@@ -56,16 +56,6 @@ public class DanceSequence implements Parcelable {
         return mElements;
     }
 
-    public static DanceSequence generateNew(String name, int length, List<DanceElement> allElements) {
-        DanceSequence seq = new DanceSequence(name, new ArrayList<DanceElement>());
-        while(seq.getLength() < length)
-        {
-            int elementIndex = (int)(Math.random() * allElements.size());
-            seq.getElements().add(allElements.get(elementIndex));
-        }
-        return seq;
-    }
-
     @Override
     public int describeContents() {
         return 0;

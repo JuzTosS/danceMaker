@@ -17,6 +17,7 @@ import com.juztoss.dancemaker.activities.MainActivity;
 import com.juztoss.dancemaker.model.DanceException;
 import com.juztoss.dancemaker.model.DanceSequence;
 import com.juztoss.dancemaker.model.DanceSpace;
+import com.juztoss.dancemaker.model.SequenceGenerator;
 
 /**
  * Created by Kirill on 2/27/2016.
@@ -53,7 +54,7 @@ public class AddNewSequenceFragment extends Fragment {
                 throw new DanceException("Empty name!");
 
             DanceSpace space = activity.getDanceSpace();
-            DanceSequence sequence = DanceSequence.generateNew(name, Integer.parseInt(lengthField.getText().toString()),space.getAllElements());
+            DanceSequence sequence = SequenceGenerator.generateNew(name, Integer.parseInt(lengthField.getText().toString()), space.getAllElements());
             activity.getDanceSpace().save(sequence);
 
         } catch (Exception e) {

@@ -21,7 +21,7 @@ public class DanceSpace {
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.ELEMENT_NAME_COLUMN, element.getName());
         values.put(DatabaseHelper.ELEMENT_LENGTH_COLUMN, element.getLength());
-        values.put(DatabaseHelper.ELEMENT_INOOUTMATRIX_COLUMN, matrix2Int(element.getInOutMatrix()));
+        values.put(DatabaseHelper.ELEMENT_INOOUTMATRIX_COLUMN, element.getInOut());
 
         if (element.isNew()) {
             DatabaseHelper.db().insert(DatabaseHelper.TABLE_ELEMENTS, DatabaseHelper.ELEMENT_NAME_COLUMN, values);
@@ -50,32 +50,6 @@ public class DanceSpace {
             int result = DatabaseHelper.db().update(DatabaseHelper.TABLE_SEQUENCES, values, DatabaseHelper._ID + "= ?", new String[]{Integer.toString(element.getId())});
             Log.d("DEBUG", "rows affected:" + result);
         }
-    }
-
-    private int matrix2Int(InOutMatrix matrix) {
-        int result = 0;
-
-        result |= matrix.inLeft ? 1 : 0;
-        result |= matrix.inBoth ? 2 : 0;
-        result |= matrix.inHello ? 4 : 0;
-        result |= matrix.outLeft ? 8 : 0;
-        result |= matrix.outBoth ? 16 : 0;
-        result |= matrix.outHello ? 32 : 0;
-
-        return result;
-    }
-
-    private InOutMatrix int2matrix(int value) {
-        InOutMatrix result = new InOutMatrix();
-
-        result.inLeft = (value & 1) > 0;
-        result.inBoth = (value & 2) > 0;
-        result.inHello = (value & 4) > 0;
-        result.outLeft = (value & 8) > 0;
-        result.outBoth = (value & 16) > 0;
-        result.outHello = (value & 32) > 0;
-
-        return result;
     }
 
     public List<DanceSequence> getSequences() {
@@ -117,7 +91,7 @@ public class DanceSpace {
             int elementMatrix = elCursor.getInt(elCursor.getColumnIndex(DatabaseHelper.ELEMENT_INOOUTMATRIX_COLUMN));
 
             elCursor.close();
-            return new DanceElement(id, elementName, elementLength, int2matrix(elementMatrix));
+            return new DanceElement(id, elementName, elementLength, elementMatrix);
         }
         elCursor.close();
         return null;
@@ -140,7 +114,7 @@ public class DanceSpace {
             int id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper._ID));
             int elementLength = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.ELEMENT_LENGTH_COLUMN));
             int elementMatrix = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.ELEMENT_INOOUTMATRIX_COLUMN));
-            elements.add(new DanceElement(id, elementName, elementLength, int2matrix(elementMatrix)));
+            elements.add(new DanceElement(id, elementName, elementLength, elementMatrix));
         } while (cursor.moveToNext());
         cursor.close();
 
