@@ -10,4 +10,5 @@
     <string name="length">Length</string>
     <string name="name">Name</string>
     <string name="length_with_number">Length %1$d</string>
+    <string name="default_seq_length">32</string>
 </resources>

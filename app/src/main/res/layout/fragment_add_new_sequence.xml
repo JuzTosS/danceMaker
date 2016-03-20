@@ -76,7 +76,8 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
-            android:inputType="number" />
+            android:inputType="number"
+            android:text="@string/default_seq_length" />
 
     </RelativeLayout>
 

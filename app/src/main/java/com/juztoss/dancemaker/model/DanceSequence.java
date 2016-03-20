@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -56,7 +57,13 @@ public class DanceSequence implements Parcelable {
     }
 
     public static DanceSequence generateNew(String name, int length, List<DanceElement> allElements) {
-        return new DanceSequence(name, allElements);
+        DanceSequence seq = new DanceSequence(name, new ArrayList<DanceElement>());
+        while(seq.getLength() < length)
+        {
+            int elementIndex = (int)(Math.random() * allElements.size());
+            seq.getElements().add(allElements.get(elementIndex));
+        }
+        return seq;
     }
 
     @Override

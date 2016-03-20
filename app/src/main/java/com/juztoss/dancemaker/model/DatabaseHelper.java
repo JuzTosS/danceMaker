@@ -37,8 +37,12 @@ class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns{
             + " integer primary key autoincrement, " + SEQUENCES_NAME_COLUMN
             + " text not null, " + SEQUENCES_ELEMENTS_COLUMN + " integer); ";
 
-    public DatabaseHelper(Context context) {
+    public DatabaseHelper(Context context) throws DanceException{
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        if(mDb != null)
+        {
+            throw new DanceException("Only one instance of DatabaseHelper is allowed");
+        }
         mDb = getWritableDatabase();
     }
 

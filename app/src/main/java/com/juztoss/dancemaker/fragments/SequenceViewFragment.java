@@ -41,6 +41,12 @@ public class SequenceViewFragment extends ListFragment implements DanceSequenceV
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(DanceSequence.ALIAS, mSequence);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_sequences_view, container, false);
 

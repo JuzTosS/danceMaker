@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,12 +23,13 @@ import com.juztoss.dancemaker.fragments.ElementsListFragment;
 import com.juztoss.dancemaker.fragments.SequenceViewFragment;
 import com.juztoss.dancemaker.fragments.SequencesListFragment;
 import com.juztoss.dancemaker.model.DanceElement;
+import com.juztoss.dancemaker.model.DanceException;
 import com.juztoss.dancemaker.model.DanceSequence;
 import com.juztoss.dancemaker.model.DanceSpace;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DanceSpace mDanceSpace;
+    private static DanceSpace mDanceSpace;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolbar;
 
@@ -40,8 +42,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         super.onCreate(savedInstanceState);
 
-        mDanceSpace = new DanceSpace(this);
-
+        try {
+            if(mDanceSpace == null)
+                mDanceSpace = new DanceSpace(this);
+        }catch (DanceException e)
+        {
+            Log.e(getResources().getString(R.string.app_name), "A DanceSpace object already has been created!");
+        }
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);

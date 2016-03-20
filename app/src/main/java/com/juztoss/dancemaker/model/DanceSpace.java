@@ -11,7 +11,9 @@ import java.util.List;
  */
 public class DanceSpace {
 
-    public DanceSpace(Context context) {
+
+
+    public DanceSpace(Context context) throws DanceException{
         new DatabaseHelper(context);
     }
 
