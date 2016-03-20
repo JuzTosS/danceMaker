@@ -9,13 +9,13 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.daimajia.swipe.SwipeLayout;
 import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.activities.MainActivity;
 import com.juztoss.dancemaker.model.DanceElement;
 import com.juztoss.dancemaker.model.DanceSequence;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,7 +28,7 @@ public class DanceSequenceViewListAdapter extends BaseAdapter implements ListAda
     private List<DanceElement> mTempElementsIds;
     private DanceSequence mDanceSequence;
     private Context context;
-    private SequenceViewDeleteListener mOnSequenceDeleteListener;
+    private SequenceViewDeleteListener mOnSequenceListener;
 
 
     public DanceSequenceViewListAdapter(Context context, DanceSequence danceSequence) {
@@ -40,7 +40,7 @@ public class DanceSequenceViewListAdapter extends BaseAdapter implements ListAda
     }
 
     public void setDeleteListener(SequenceViewDeleteListener onSequenceDeleteListener) {
-        mOnSequenceDeleteListener = onSequenceDeleteListener;
+        mOnSequenceListener = onSequenceDeleteListener;
     }
 
     @Override
@@ -76,12 +76,22 @@ public class DanceSequenceViewListAdapter extends BaseAdapter implements ListAda
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnSequenceDeleteListener != null) {
-                    mOnSequenceDeleteListener.onDelete(el);
+                if (mOnSequenceListener != null) {
+                    mOnSequenceListener.onDelete(el);
                 }
                 mDanceSequence.delete(el);
                 activity.getDanceSpace().save(mDanceSequence);
                 notifyDataSetChanged();
+            }
+        });
+
+        final SwipeLayout swipeLayout = (SwipeLayout)view.findViewById(R.id.swipe_list_element);
+        swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
+        swipeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnSequenceListener != null && swipeLayout.getOpenStatus() == SwipeLayout.Status.Close)
+                    mOnSequenceListener.onClick(el);
             }
         });
 
@@ -96,6 +106,7 @@ public class DanceSequenceViewListAdapter extends BaseAdapter implements ListAda
 
     public interface SequenceViewDeleteListener {
         void onDelete(DanceElement element);
+        void onClick(DanceElement el);
     }
 
     @Override

@@ -84,6 +84,11 @@ public class SequenceViewFragment extends ListFragment implements DanceSequenceV
     }
 
     @Override
+    public void onClick(DanceElement el) {
+        ((MainActivity) getActivity()).showElement(el);
+    }
+
+    @Override
     public void onDelete(DanceElement element) {
         //TODO: remove onDelete, action is implemented in the adapter
 //        try {
