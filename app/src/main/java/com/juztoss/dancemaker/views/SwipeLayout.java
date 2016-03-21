@@ -3,6 +3,9 @@ package com.juztoss.dancemaker.views;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
+
+import com.juztoss.dancemaker.R;
 
 /**
  * Created by Kirill on 3/7/2016.
@@ -23,7 +26,8 @@ public class SwipeLayout extends com.daimajia.swipe.SwipeLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (getOpenStatus()==Status.Close && event.getActionMasked() == MotionEvent.ACTION_DOWN && event.getX() < getWidth() / 2)
+        View dragHandle = findViewById(R.id.drag_handle);
+        if (getOpenStatus()==Status.Close && event.getActionMasked() == MotionEvent.ACTION_DOWN && event.getX() < (dragHandle.getX() + dragHandle.getWidth()))
             return false;
         else
             return super.onTouchEvent(event);

@@ -61,7 +61,7 @@ public class AddNewSequenceFragment extends Fragment {
             Toast.makeText(getActivity(), "The sequence hasn't been saved!", Toast.LENGTH_SHORT).show();
         }
 
-        activity.showAllSequences(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-        return false;
+        activity.onBackPressed();
+        return true;
     }
 }

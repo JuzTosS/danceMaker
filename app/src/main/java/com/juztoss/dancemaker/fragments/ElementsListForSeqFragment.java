@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -56,6 +57,12 @@ public class ElementsListForSeqFragment extends ListFragment implements DanceEle
         MainActivity activity = (MainActivity) getActivity();
         activity.getDanceSpace().save(mSequence);
         activity.showSequence(mSequence);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        getActivity().onBackPressed();
+        return true;
     }
 
     @Override

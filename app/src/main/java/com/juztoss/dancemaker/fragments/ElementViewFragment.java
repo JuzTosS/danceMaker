@@ -134,8 +134,8 @@ public class ElementViewFragment extends Fragment {
             Toast.makeText(getActivity(), "The element hasn't been saved!", Toast.LENGTH_SHORT).show();
         }
 
-        activity.showAllElements(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-        return false;
+        activity.onBackPressed();
+        return true;
     }
 
 

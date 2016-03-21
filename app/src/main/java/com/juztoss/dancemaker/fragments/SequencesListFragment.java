@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -62,6 +63,12 @@ public class SequencesListFragment extends ListFragment implements DanceSequence
     @Override
     public void onClick(DanceSequence sequence) {
         ((MainActivity) getActivity()).showSequence(sequence);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        getActivity().onBackPressed();
+        return true;
     }
 
     @Override

@@ -100,8 +100,8 @@ public class SequenceViewFragment extends ListFragment implements DanceSequenceV
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        ((MainActivity) getActivity()).showAllSequences(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-        return false;
+        getActivity().onBackPressed();
+        return true;
     }
 
     @Override
