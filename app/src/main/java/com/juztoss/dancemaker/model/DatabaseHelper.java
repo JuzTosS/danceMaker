@@ -31,7 +31,7 @@ class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns{
     private static final String CREATE_ELEMENTS_TABLE = "create table "
             + TABLE_ELEMENTS + " (" + BaseColumns._ID + " integer primary key autoincrement, "
             + ELEMENT_NAME_COLUMN + " text not null, "
-            + ELEMENT_INOOUTMATRIX_COLUMN + " integer default 0"
+            + ELEMENT_INOOUTMATRIX_COLUMN + " integer default 0, "
             + ELEMENT_LENGTH_COLUMN + " integer); ";
 
     private static final String CREATE_SEQUENCES_TABLE = "create table "
