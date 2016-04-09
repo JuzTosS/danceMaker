@@ -1,5 +1,6 @@
 package com.juztoss.dancemaker.activities;
 
+import android.animation.ValueAnimator;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -7,11 +8,12 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.animation.DecelerateInterpolator;
 
 import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.fragments.AddNewSequenceFragment;
@@ -28,7 +30,7 @@ import com.juztoss.dancemaker.model.DanceSpace;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static DanceSpace mDanceSpace;
-    private ActionBarDrawerToggle mDrawerToggle;
+    DrawerArrowDrawable mHamburger;
     private Toolbar mToolbar;
 
     public DanceSpace getDanceSpace() {
@@ -48,14 +50,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerToggle = new MyActionBarDrawerToggle(
-                this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(mDrawerToggle);
+        mHamburger = new DrawerArrowDrawable(mToolbar.getContext());
         setSupportActionBar(mToolbar);
-
+        mToolbar.setNavigationIcon(mHamburger);
         getFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
@@ -69,12 +67,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         showAllElements();
     }
 
-    void syncDrawerState() {
-        if (getFragmentManager().getBackStackEntryCount() > 1) {
-            mDrawerToggle.onDrawerOpened(null);
-        }
-        else
-            mDrawerToggle.syncState();
+    protected void syncDrawerState() {
+        boolean hasItemsInHistory = getFragmentManager().getBackStackEntryCount() > 0;
+        float from = hasItemsInHistory ? 0 : 1;
+        float to = hasItemsInHistory ? 1 : 0;
+
+        if(mHamburger.getProgress() == to)
+            return;
+
+        ValueAnimator anim = ValueAnimator.ofFloat(from, to);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float slideOffset = (Float) valueAnimator.getAnimatedValue();
+                mHamburger.setProgress(slideOffset);
+            }
+        });
+        anim.setInterpolator(new DecelerateInterpolator());
+        anim.setDuration(250);
+        anim.start();
     }
 
     @Override
@@ -82,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if (getFragmentManager().getBackStackEntryCount() > 1) {
+        } else if (getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
@@ -99,9 +110,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 
         FragmentTransaction t = transaction.replace(R.id.container, fragment);
-        if(addToBackStack)
+        if (addToBackStack)
             t = t.addToBackStack(null);
         t.commit();
+
+        syncDrawerState();
     }
 
     public void showAllElements() {
@@ -142,13 +155,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int stack = getFragmentManager().getBackStackEntryCount();
-        if (stack <= 1) {
+        int id = item.getItemId();
+        if (id == R.id.save) {
+            return super.onOptionsItemSelected(item);
+        } else {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawer.openDrawer(GravityCompat.START);
+            if (getFragmentManager().getBackStackEntryCount() > 0) {
+                getFragmentManager().popBackStack();
+            }
+            else if (!drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.openDrawer(GravityCompat.START);
+            }
             return true;
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

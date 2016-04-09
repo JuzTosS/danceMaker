@@ -59,7 +59,10 @@ public class SequenceGenerator {
 
         DanceElement lastEl = null;
 
-        while (seq.getLength() < length) {
+        while (seq.getLength() < length && !(elementsByType.get(DanceElement.OUT_HELLO).size() <= 0 &&
+                                            elementsByType.get(DanceElement.OUT_LEFT).size() <= 0 &&
+                                            elementsByType.get(DanceElement.OUT_BOTH).size() <= 0))
+        {
             if(lastEl == null)
                 lastEl = getRandom(allElements);
 
