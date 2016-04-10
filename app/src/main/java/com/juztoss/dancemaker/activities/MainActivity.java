@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void showFragment(Fragment fragment, boolean addToBackStack) {
+    private void showFragment(Fragment fragment) {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
@@ -110,8 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 
         FragmentTransaction t = transaction.replace(R.id.container, fragment);
-        if (addToBackStack)
-            t = t.addToBackStack(null);
+        t = t.addToBackStack(null);
         t.commit();
 
         syncDrawerState();
@@ -119,12 +118,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void showAllElements() {
         Fragment fragment = new ElementsListFragment();
-        showFragment(fragment, false);
+        showFragment(fragment);
     }
 
     public void showAllSequences() {
         Fragment fragment = new SequencesListFragment();
-        showFragment(fragment, false);
+        showFragment(fragment);
     }
 
     public void showSequence(DanceSequence sequence) {
@@ -132,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Bundle args = new Bundle();
         args.putParcelable(DanceSequence.ALIAS, sequence);
         fragment.setArguments(args);
-        showFragment(fragment, true);
+        showFragment(fragment);
     }
 
     public void showElement(DanceElement element) {
@@ -140,17 +139,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Bundle args = new Bundle();
         args.putParcelable(DanceElement.ALIAS, element);
         fragment.setArguments(args);
-        showFragment(fragment, true);
+        showFragment(fragment);
     }
 
     public void showAddNewElement() {
         Fragment fragment = new ElementViewFragment();
-        showFragment(fragment, false);
+        showFragment(fragment);
     }
 
     public void showAddNewSequence() {
         Fragment fragment = new AddNewSequenceFragment();
-        showFragment(fragment, false);
+        showFragment(fragment);
     }
 
     @Override
@@ -191,6 +190,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Bundle args = new Bundle();
         args.putParcelable(DanceSequence.ALIAS, sequence);
         fragment.setArguments(args);
-        showFragment(fragment, false);
+        showFragment(fragment);
     }
 }
