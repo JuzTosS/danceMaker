@@ -14,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.animation.DecelerateInterpolator;
-
 import com.juztoss.dancemaker.R;
 import com.juztoss.dancemaker.fragments.AddNewSequenceFragment;
 import com.juztoss.dancemaker.fragments.ElementViewFragment;
@@ -157,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         if (id == R.id.save) {
             return super.onOptionsItemSelected(item);
-        } else {
+        } else if(id == android.R.id.home){
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             if (getFragmentManager().getBackStackEntryCount() > 0) {
                 getFragmentManager().popBackStack();
@@ -167,6 +166,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             return true;
         }
+
+        return true;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
